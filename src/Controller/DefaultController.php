@@ -18,6 +18,6 @@ class DefaultController{
      */
 
     public function index($name){
-        return new Response('Hello Peoples $name!!!');
+        return new Response('Hello Peoples ' .$name.'!!!');
     }
 }
