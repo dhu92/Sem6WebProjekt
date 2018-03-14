@@ -2,10 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Recipes</title>
+    <title>Title</title>
 </head>
-
 <body>
+<ul>
+    {% for recipe in recipes%}
+        <li>{{ recipe.name }}</li>
+    {% else %}
+        <li>No users found</li>
+    {% endfor %}
+</ul>
+
+    <title>Recipes</title>
 
 </body>
 </html>
