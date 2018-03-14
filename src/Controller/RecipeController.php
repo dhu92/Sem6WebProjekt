@@ -11,11 +11,11 @@ namespace App\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class BookController{
+class RecipeController{
 
 
     public function list(){
-        return new Response("Hello");
+        $this -> render('list.html.twig', ['recipes' => $this->loadAll(Recipes)]);
     }
 
 
