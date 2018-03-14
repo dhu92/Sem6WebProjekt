@@ -11,6 +11,9 @@ namespace App\Domain;
 
 class Recipe {
 
-    public $name = 'testname';
+    public $name;
 
+    public function setName($newname) {
+        $this->name = $newname;
+    }
 }

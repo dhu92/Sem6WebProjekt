@@ -1,6 +1,6 @@
-index:
-    path: /hello/{name}
-    controller: App\Controller\DefaultController::index
-recipe:
-    path: /recipes
-    controller: App\Controller\RecipeController::list
+#index:
+#    path: /hello/{name}
+#    controller: App\Controller\DefaultController::index
+#recipe:
+#    path: /recipes
+#    controller: App\Controller\RecipeController::list
