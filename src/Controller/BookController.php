@@ -13,16 +13,12 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class BookController{
 
-    /**
-     * @Route("/")
-     */
+
     public function list(){
         return new Response("Hello");
     }
 
-    /**
-     * @Route("/book/{name}"
-     */
+
     public function show($name){
        return new Response("Book name: " .$name);
     }
