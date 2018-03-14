@@ -16,7 +16,6 @@ class DefaultController{
     /**
      * @Route("/hello/{name}")
      */
-
     public function index($name){
         return new Response('Hello Peoples ' .$name.'!!!');
     }
