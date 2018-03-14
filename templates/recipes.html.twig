@@ -2,9 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    {% block head %}
+        <link rel="stylesheet" href="{{ asset('main.css') }}" />
+    {% endblock %}
     <title>Title</title>
 </head>
 <body>
+
 <ul>
     {% for recipe in recipes%}
         <li>{{ recipe.name }}</li>
