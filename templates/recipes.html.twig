@@ -2,10 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    {% block head %}
-        <link rel="stylesheet" href="{{ asset('main.css') }}" />
-    {% endblock %}
     <title>Title</title>
+    <style>{{ source('css/main.css') }}</style>
 </head>
 <body>
 

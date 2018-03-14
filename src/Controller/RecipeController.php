@@ -13,10 +13,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/recipe")
+ */
 class RecipeController extends Controller {
 
     /**
-     * @Route("/recipe")
+     * @Route("/")
      */
     public function list(){
         $r1 = new Recipe();
@@ -30,7 +33,7 @@ class RecipeController extends Controller {
     }
 
     /**
-     * @Route("/recipe/{name}")
+     * @Route("/{name}")
      */
     public function show($name){
        return new Response("Book name: " .$name);
