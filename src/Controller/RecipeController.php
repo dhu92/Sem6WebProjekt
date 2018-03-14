@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/recipe")
+ * @Route("/{_locale}/recipe")
  */
 class RecipeController extends Controller {
 
@@ -23,13 +23,13 @@ class RecipeController extends Controller {
      */
     public function list(){
         $r1 = new Recipe();
-        $r1 ->setName("Test 1");
+        $r1 ->setName("apple");
         $r2 = new Recipe();
         $r2 ->setName("Test 2");
         $r3 = new Recipe();
         $r3 ->setName("Test 3");
         $recipes = [$r1, $r2, $r3];
-        return $this -> render('recipes.html.twig', ['recipes' => $recipes]);
+        return $this -> render('recipes.html.twig', ['recipes' => $recipes, 'count' => 1]);
     }
 
     /**
