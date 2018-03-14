@@ -15,7 +15,7 @@ class RecipeController{
 
 
     public function list(){
-        $this -> render('list.html.twig', ['recipes' => $this->loadAll(Recipes)]);
+        $this -> render('recipes.html.twig', ['recipes' => $this->loadAll(Recipes)]);
     }
 
 
