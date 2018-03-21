@@ -20,6 +20,24 @@ class DefaultController{
      * @Route("/hello/{name}")
      */
     public function index($name){
+        /*$entityManager = $this->getDoctrine()->getManager();
+        $ticket = new Ticker();
+        $entityManager->persist($ticket);
+        $entityManager->flush();*/
+
+        //get data from db
+        /*$r = $entityManager->getRepository(Ticket::class);
+        $t = $r->find(2);  // or findBy*(message), findAll
+        $t->setMessage('...');
+        $entityManager->flush();
+        */
+
+        //delete entity
+        /*
+         * $entityManager->remove($ticket);
+         * $entityManager->flush();
+         */
+
         return new Response('Hello Peoples ' .$name.'!!!');
     }
 }
