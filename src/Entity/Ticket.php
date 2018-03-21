@@ -25,4 +25,8 @@ class Ticket
      */
     private $message;
 
+    /**
+     * @ORM/ManyToOne(targetEntity="App/Entity/Staffer" inversedBy="tickets")
+     */
+    private $staffer;
 }
