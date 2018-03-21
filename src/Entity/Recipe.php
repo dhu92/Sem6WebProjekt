@@ -9,10 +9,11 @@
 namespace App\Entity;
 
 /**
+ * @ORM/Table(name="Recipe")
  * @ORM/Entity
  */
 
-class Ticket
+class Recipe
 {
     /**
      * @ORM/Column(type="integer")
@@ -20,13 +21,4 @@ class Ticket
      * @ORM/id
      */
     private $id;
-    /**
-     * @ORM/Column(type="text")
-     */
-    private $message;
-
-    /**
-     * @ORM/ManyToOne(targetEntity="App/Entity/Staffer" inversedBy="tickets")
-     */
-    private $staffer;
 }
