@@ -22,7 +22,10 @@ class RecipeTranslation {
      */
     private $id;
 
-
+    /**
+     * @ManyToOne(targetEntity="Recipe")
+     * @JoinColumn(name="recipeID", referencedColumnName="id")
+     */
     private $recipeID;
 
     /**
