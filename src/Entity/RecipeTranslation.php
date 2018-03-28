@@ -23,6 +23,12 @@ class RecipeTranslation {
     private $id;
 
     /**
+     * @OneToOne(targetEntity="Language")
+     * @JoinColumn(name="languageID", referencedColumnName="id")
+     */
+    private $languageID;
+
+    /**
      * @ManyToOne(targetEntity="Recipe")
      * @JoinColumn(name="recipeID", referencedColumnName="id")
      */
@@ -51,11 +57,4 @@ class RecipeTranslation {
      * @ORM/duration
      */
     private $duration;
-
-    /**
-     * @OneToOne(targetEntity="Language")
-     * @JoinColumn(name="id", referencedColumnName="id")
-     */
-    private $language;
-
 }
