@@ -24,10 +24,35 @@ class RecipeTranslation {
 
 
     private $recipeID;
+
+    /**
+     * @ORM/Column(type="string")
+     * @ORM/name
+     */
     private $name;
+
+    /**
+     * @ORM/Column(type="string")
+     * @ORM/description
+     */
     private $description;
+
+    /**
+     * @ORM/Column(type="string")
+     * @ORM/preperation
+     */
     private $preperation;
+
+    /**
+     * @ORM/Column(type="integer")
+     * @ORM/duration
+     */
     private $duration;
+
+    /**
+     * @OneToOne(targetEntity="Language")
+     * @JoinColumn(name="id", referencedColumnName="id")
+     */
     private $language;
 
 }
