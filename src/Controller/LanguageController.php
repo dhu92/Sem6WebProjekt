@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class LanguageController extends Controller
 {
     /**
-     * @Route("/addlanguage/{name}", name="language")
+     * @Route("/addlanguage/{name}", name="addlanguage")
      */
     public function addLanguage($name)
     {
