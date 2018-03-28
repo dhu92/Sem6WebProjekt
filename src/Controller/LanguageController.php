@@ -31,7 +31,7 @@ class LanguageController extends Controller
      */
     public function getLanguages($id){
         $language = $this->getDoctrine()->getRepository(Language::class)->find($id);
-        if($language){
+        if(!$language){
             throw $this->createNotFoundException(
                 'No language found'
             );
