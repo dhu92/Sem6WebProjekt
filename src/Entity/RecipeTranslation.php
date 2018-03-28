@@ -57,5 +57,4 @@ class RecipeTranslation {
      * @ORM/duration
      */
     private $duration;
-
 }
