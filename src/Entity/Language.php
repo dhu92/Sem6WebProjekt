@@ -9,10 +9,10 @@
 namespace App\Entity;
 
 /**
- * @ORM/Table(name="Ingredient")
+ * @ORM/Table(name="Language")
  * @ORM/Entity
  */
-class Ingredient
+class Language
 {
     /**
      * @ORM/Column(type="integer")
@@ -20,4 +20,10 @@ class Ingredient
      * @ORM/id
      */
     private $id;
+
+    /**
+     * @ORM/Column(type="string")
+     * @ORM/name
+     */
+    private $name;
 }

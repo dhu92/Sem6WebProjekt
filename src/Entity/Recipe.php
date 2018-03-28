@@ -12,7 +12,6 @@ namespace App\Entity;
  * @ORM/Table(name="Recipe")
  * @ORM/Entity
  */
-
 class Recipe
 {
     /**
