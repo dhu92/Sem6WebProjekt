@@ -20,4 +20,10 @@ class Ingredient
      * @ORM/id
      */
     private $id;
+
+    /**
+     * @OneToMany(targetEntity="IngredientTranslation")
+     * @JoinColumn(name="id", referencedColumnName="recipeID")
+     */
+    private $translation;
 }
