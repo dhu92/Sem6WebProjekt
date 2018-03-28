@@ -7,5 +7,11 @@
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://localhost:5432/Recipe</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="symfoniac@localhost" uuid="ed29c21c-d746-4d45-9ece-c4c249e4be2c">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/symfoniac</jdbc-url>
+    </data-source>
   </component>
 </project>

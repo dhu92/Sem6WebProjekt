@@ -17,6 +17,85 @@ use Doctrine\ORM\Mapping as ORM;
 class RecipeIngredient
 {
     /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id): void
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRecipeID()
+    {
+        return $this->recipeID;
+    }
+
+    /**
+     * @param mixed $recipeID
+     */
+    public function setRecipeID($recipeID): void
+    {
+        $this->recipeID = $recipeID;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIngredientID()
+    {
+        return $this->ingredientID;
+    }
+
+    /**
+     * @param mixed $ingredientID
+     */
+    public function setIngredientID($ingredientID): void
+    {
+        $this->ingredientID = $ingredientID;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAmount()
+    {
+        return $this->amount;
+    }
+
+    /**
+     * @param mixed $amount
+     */
+    public function setAmount($amount): void
+    {
+        $this->amount = $amount;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMeasurement()
+    {
+        return $this->measurement;
+    }
+
+    /**
+     * @param mixed $measurement
+     */
+    public function setMeasurement($measurement): void
+    {
+        $this->measurement = $measurement;
+    }
+    /**
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
      * @ORM\Id

@@ -14,6 +14,69 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  */
 class IngredientTranslation {
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id): void
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIngredientID()
+    {
+        return $this->ingredientID;
+    }
+
+    /**
+     * @param mixed $ingredientID
+     */
+    public function setIngredientID($ingredientID): void
+    {
+        $this->ingredientID = $ingredientID;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     */
+    public function setName($name): void
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLanguage()
+    {
+        return $this->language;
+    }
+
+    /**
+     * @param mixed $language
+     */
+    public function setLanguage($language): void
+    {
+        $this->language = $language;
+    }
 
     /**
      * @ORM\Column(type="integer")
