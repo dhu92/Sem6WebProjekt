@@ -24,14 +24,14 @@ class RecipeIngredient
     private $id;
 
     /**
-     * @OneToOne(targetEntity="Recipe")
-     * @JoinColumn(name="recipeID", referencedColumnName="id")
+     * @ORM/OneToOne(targetEntity="Recipe")
+     * @ORM/JoinColumn(name="recipeID", referencedColumnName="id")
      */
     private $recipeID;
 
     /**
-     * @OneToOne(targetEntity="Ingredient")
-     * @JoinColumn(name="ingredientID", referencedColumnName="id")
+     * @ORM/OneToOne(targetEntity="Ingredient")
+     * @ORM/JoinColumn(name="ingredientID", referencedColumnName="id")
      */
     private $ingredientID;
 

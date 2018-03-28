@@ -23,8 +23,8 @@ class Recipe
     private $id;
 
     /**
-     * @OneToMany(targetEntity="RecipeTranslation")
-     * @JoinColumn(name="id", referencedColumnName="recipeID")
+     * @ORM/OneToMany(targetEntity="RecipeTranslation")
+     * @ORM/JoinColumn(name="id", referencedColumnName="recipeID")
      */
     private $translation;
 }

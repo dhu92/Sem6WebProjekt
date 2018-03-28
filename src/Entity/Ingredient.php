@@ -10,21 +10,21 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 /**
- * @ORM/Table(name="Ingredient")
- * @ORM/Entity
+ * @ORM\Table(name="Ingredient")
+ * @ORM\Entity
  */
 class Ingredient
 {
     /**
-     * @ORM/Column(type="integer")
-     * @ORM/GeneratedValue
-     * @ORM/id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
+     * @ORM\id
      */
     private $id;
 
     /**
-     * @OneToMany(targetEntity="IngredientTranslation")
-     * @JoinColumn(name="id", referencedColumnName="recipeID")
+     * @ORM\OneToMany(targetEntity="IngredientTranslation")
+     * @ORM\JoinColumn(name="id", referencedColumnName="recipeID")
      */
     private $translation;
 }

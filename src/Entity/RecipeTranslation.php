@@ -10,52 +10,52 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 /**
- * @ORM/Table(name="RecipeTranslation")
- * @ORM/Entity
+ * @ORM\Table(name="RecipeTranslation")
+ * @ORM\Entity
  */
 class RecipeTranslation {
 
 
     /**
-     * @ORM/Column(type="integer")
-     * @ORM/GeneratedValue
-     * @ORM/id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
+     * @ORM\id
      */
     private $id;
 
     /**
-     * @ORM/OneToOne(targetEntity="Language")
-     * @ORM/JoinColumn(name="languageID", referencedColumnName="id")
+     * @ORM\OneToOne(targetEntity="Language")
+     * @ORM\JoinColumn(name="languageID", referencedColumnName="id")
      */
     private $languageID;
 
     /**
-     * @ORM/ManyToOne(targetEntity="Recipe")
-     * @ORM/JoinColumn(name="recipeID", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Recipe")
+     * @ORM\JoinColumn(name="recipeID", referencedColumnName="id")
      */
     private $recipeID;
 
     /**
-     * @ORM/Column(type="string")
-     * @ORM/name
+     * @ORM\Column(type="string")
+     * @ORM\name
      */
     private $name;
 
     /**
-     * @ORM/Column(type="string")
-     * @ORM/description
+     * @ORM\Column(type="string")
+     * @ORM\description
      */
     private $description;
 
     /**
-     * @ORM/Column(type="string")
-     * @ORM/preperation
+     * @ORM\Column(type="string")
+     * @ORM\preperation
      */
     private $preperation;
 
     /**
-     * @ORM/Column(type="integer")
-     * @ORM/duration
+     * @ORM\Column(type="integer")
+     * @ORM\duration
      */
     private $duration;
 }
