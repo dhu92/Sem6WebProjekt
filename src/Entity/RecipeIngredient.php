@@ -19,7 +19,7 @@ class RecipeIngredient
     /**
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
-     * @ORM\id
+     * @ORM\Id
      */
     private $id;
 

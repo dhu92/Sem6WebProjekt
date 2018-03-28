@@ -18,7 +18,7 @@ class Language
     /**
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
-     * @ORM\id
+     * @ORM\Id
      */
     private $id;
 
