@@ -25,12 +25,14 @@ class RecipeTranslation {
 
     /**
      * @ORM\OneToOne(targetEntity="Language")
+     * @ORM\mappedBy("IngredientTranslation")
      * @ORM\JoinColumn(name="languageID", referencedColumnName="id")
      */
     private $languageID;
 
     /**
      * @ORM\ManyToOne(targetEntity="Recipe")
+     * @ORM\mappedBy("IngredientTranslation")
      * @ORM\JoinColumn(name="recipeID", referencedColumnName="id")
      */
     private $recipeID;

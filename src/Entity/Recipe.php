@@ -24,6 +24,7 @@ class Recipe
 
     /**
      * @ORM\OneToMany(targetEntity="RecipeTranslation")
+     * @ORM\mappedBy("IngredientTranslation")
      * @ORM\JoinColumn(name="id", referencedColumnName="recipeID")
      */
     private $translation;
