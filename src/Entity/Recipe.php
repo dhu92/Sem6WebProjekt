@@ -21,6 +21,9 @@ class Recipe
      */
     private $id;
 
-
+    /**
+     * @OneToMany(targetEntity="RecipeTranslation")
+     * @JoinColumn(name="id", referencedColumnName="recipeID")
+     */
     private $translation;
 }

@@ -21,6 +21,9 @@ class RecipeTranslation {
      * @ORM/id
      */
     private $id;
+
+
+    private $recipeID;
     private $name;
     private $description;
     private $preperation;
