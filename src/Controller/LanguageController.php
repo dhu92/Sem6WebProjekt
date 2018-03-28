@@ -27,10 +27,10 @@ class LanguageController extends Controller
     }
 
     /**
-     * @Route("/getlanguage", name="language")
+     * @Route("/getlanguage/{id}", name="language")
      */
-    public function getLanguages(){
-        $language = $this->getDoctrine()->getRepository(Language::class)->find(1);
+    public function getLanguages($id){
+        $language = $this->getDoctrine()->getRepository(Language::class)->find($id);
         if($language){
             throw $this->createNotFoundException(
                 'No language found'
