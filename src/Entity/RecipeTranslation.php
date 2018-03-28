@@ -24,40 +24,34 @@ class RecipeTranslation {
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="Language")
-     * @ORM\mappedBy("IngredientTranslation")
+     * @ORM\OneToOne(targetEntity="Language", mappedBy="Language")
      * @ORM\JoinColumn(name="languageID", referencedColumnName="id")
      */
     private $languageID;
 
     /**
      * @ORM\ManyToOne(targetEntity="Recipe")
-     * @ORM\mappedBy("IngredientTranslation")
      * @ORM\JoinColumn(name="recipeID", referencedColumnName="id")
      */
     private $recipeID;
 
     /**
      * @ORM\Column(type="string")
-     * @ORM\name
      */
     private $name;
 
     /**
      * @ORM\Column(type="string")
-     * @ORM\description
      */
     private $description;
 
     /**
      * @ORM\Column(type="string")
-     * @ORM\preperation
      */
     private $preperation;
 
     /**
      * @ORM\Column(type="integer")
-     * @ORM\duration
      */
     private $duration;
 }

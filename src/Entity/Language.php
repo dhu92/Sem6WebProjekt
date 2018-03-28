@@ -24,7 +24,6 @@ class Language
 
     /**
      * @ORM\Column(type="string")
-     * @ORM\name
      */
     private $name;
 }

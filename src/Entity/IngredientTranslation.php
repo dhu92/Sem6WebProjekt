@@ -24,19 +24,17 @@ class IngredientTranslation {
 
     /**
      * @ORM\ManyToOne(targetEntity="Ingredient")
-     * @ORM\mappedBy("IngredientTranslation")
      * @ORM\JoinColumn(name="ingredientID", referencedColumnName="id")
      */
     private $ingredientID;
 
     /**
      * @ORM\Column(type="string")
-     * @ORM\name
      */
     private $name;
 
     /**
-     * @ORM\OneToOne(targetEntity="Language")
+     * @ORM\OneToOne(targetEntity="Language", mappedBy="Language")
      * @ORM\JoinColumn(name="id", referencedColumnName="id")
      */
     private $language;

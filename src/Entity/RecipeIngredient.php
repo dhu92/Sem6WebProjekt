@@ -24,28 +24,24 @@ class RecipeIngredient
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="Recipe")
-     * @ORM\mappedBy("IngredientTranslation")
+     * @ORM\OneToOne(targetEntity="Recipe", mappedBy="Recipe")
      * @ORM\JoinColumn(name="recipeID", referencedColumnName="id")
      */
     private $recipeID;
 
     /**
-     * @ORM\OneToOne(targetEntity="Ingredient")
-     * @ORM\mappedBy("IngredientTranslation")
+     * @ORM\OneToOne(targetEntity="Ingredient", mappedBy="Ingredient")
      * @ORM\JoinColumn(name="ingredientID", referencedColumnName="id")
      */
     private $ingredientID;
 
     /**
      * @ORM\Column(type="integer")
-     * @ORM\amount
      */
     private $amount;
 
     /**
      * @ORM\Column(type="string")
-     * @ORM\measurement
      */
     private $measurement;
 
