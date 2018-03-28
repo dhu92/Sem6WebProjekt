@@ -21,4 +21,7 @@ class Recipe
      * @ORM/id
      */
     private $id;
+
+
+    private $translation;
 }
