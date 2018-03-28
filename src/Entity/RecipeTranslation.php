@@ -29,7 +29,7 @@ class RecipeTranslation {
     private $languageID;
 
     /**
-     * @OneToOne(targetEntity="Recipe")
+     * @ManyToOne(targetEntity="Recipe")
      * @JoinColumn(name="recipeID", referencedColumnName="id")
      */
     private $recipeID;
@@ -53,7 +53,7 @@ class RecipeTranslation {
     private $preperation;
 
     /**
-     * @ORM/Column(type="string")
+     * @ORM/Column(type="integer")
      * @ORM/duration
      */
     private $duration;
