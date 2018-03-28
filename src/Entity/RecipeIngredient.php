@@ -10,40 +10,40 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 /**
- * @ORM/Table(name="RecipeIngredient")
- * @ORM/Entity
+ * @ORM\Table(name="RecipeIngredient")
+ * @ORM\Entity
  */
 
 class RecipeIngredient
 {
     /**
-     * @ORM/Column(type="integer")
-     * @ORM/GeneratedValue
-     * @ORM/id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
+     * @ORM\id
      */
     private $id;
 
     /**
-     * @ORM/OneToOne(targetEntity="Recipe")
-     * @ORM/JoinColumn(name="recipeID", referencedColumnName="id")
+     * @ORM\OneToOne(targetEntity="Recipe")
+     * @ORM\JoinColumn(name="recipeID", referencedColumnName="id")
      */
     private $recipeID;
 
     /**
-     * @ORM/OneToOne(targetEntity="Ingredient")
-     * @ORM/JoinColumn(name="ingredientID", referencedColumnName="id")
+     * @ORM\OneToOne(targetEntity="Ingredient")
+     * @ORM\JoinColumn(name="ingredientID", referencedColumnName="id")
      */
     private $ingredientID;
 
     /**
-     * @ORM/Column(type="integer")
-     * @ORM/amount
+     * @ORM\Column(type="integer")
+     * @ORM\amount
      */
     private $amount;
 
     /**
-     * @ORM/Column(type="string")
-     * @ORM/measurement
+     * @ORM\Column(type="string")
+     * @ORM\measurement
      */
     private $measurement;
 
