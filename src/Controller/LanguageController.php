@@ -27,7 +27,7 @@ class LanguageController extends Controller
     }
 
     /**
-     * @Route("/getlanguage/{id}", name="language")
+     * @Route("/getlanguage/{id}", name="getlanguage")
      */
     public function getLanguages($id){
         $language = $this->getDoctrine()->getRepository(Language::class)->find($id);

@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class DefaultController{
 
     /**
-     * @Route("/hello/{name}")
+     * @Route("/hello/{name}", name="hello")
      */
     public function index($name){
         /*$entityManager = $this->getDoctrine()->getManager();
