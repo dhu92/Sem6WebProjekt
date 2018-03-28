@@ -10,20 +10,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class LanguageController extends Controller
 {
     /**
-     * @Route("/language", name="language")
+     * @Route("/addlanguage/{name}", name="language")
      */
-    public function index()
+    public function addLanguage($name)
     {
         $entityManager = $this->getDoctrine()->getManager();
 
         $language = new Language();
-        $language->setName('German');
+        $language->setName($name);
         $entityManager->persist($language);
         $entityManager->flush();
        /* return $this->render('language/index.html.twig', [
             'controller_name' => 'LanguageController',
         ]);*/
-       return new Response('Saved german language');
+       return new Response('Saved '.$name.' language');
     }
 
     /**
