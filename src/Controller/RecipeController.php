@@ -20,7 +20,7 @@ class RecipeController extends Controller
     }
 
     private function save($data){
-        $this->denyAccessUnlessGranted('ROLE_USER', null, 'You have to be logged in.');
+        //$this->denyAccessUnlessGranted('ROLE_USER', null, 'You have to be logged in.');
         $entityManager = $this ->getDoctrine()->getManager();
         $entityManager->persist($data);
         $entityManager->flush();
