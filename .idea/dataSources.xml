@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="Recipe@localhost" uuid="002cbe0f-32d1-4678-8884-136e38fcdbfb">
+    <data-source source="LOCAL" name="SymfRecipeDB@localhost" uuid="dcb74f57-05a6-4f7e-b4a5-4287c7f019ea">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:5432/Recipe</jdbc-url>
+      <jdbc-url>jdbc:postgresql://localhost:5432/SymfRecipeDB</jdbc-url>
     </data-source>
     <data-source source="LOCAL" name="symfoniac@localhost" uuid="ed29c21c-d746-4d45-9ece-c4c249e4be2c">
       <driver-ref>postgresql</driver-ref>
