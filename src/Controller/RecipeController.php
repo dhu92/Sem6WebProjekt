@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+
+
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -18,6 +20,7 @@ class RecipeController extends Controller
     }
 
     private function save($data){
+        $this->denyAccessUnlessGranted('ROLE_USER', null, 'You have to be logged in.');
         $entityManager = $this ->getDoctrine()->getManager();
         $entityManager->persist($data);
         $entityManager->flush();
