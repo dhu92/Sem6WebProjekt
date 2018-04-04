@@ -50,6 +50,7 @@ class Ingredient
     {
         $this->translation = $translation;
     }
+
     /**
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
