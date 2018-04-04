@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\RecipeIngredient;
 use App\Form\RecipeFormType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,13 +23,18 @@ class RecipeIngredientController extends Controller
 
             //anstelle von recipeData die Entity verwenden um Daten in die DB zu schreiben
             //hier könnte z.b. mit recipeData[name] auf den Namen zugegriffen werden
-            $recipeData = $form->getData();
+            $formData = $form->getData();
+
 
             //dump funktioniert wie sysout nur zeigt es die Informationen direkt auf der Seite an
             //dump($recipeData);
-
+            /*$data = new RecipeIngredient();
+            $data->setAmount($formData[1]);
+            $data->setMeasurement($formData[2]);
+            $entityManager = $this ->getDoctrine()->getManager();
+            $entityManager->persist($recipeData);
+            $entityManager->flush();*/
             $this->addFlash('success', 'Recipe added successfully');
-
             return $this->redirectToRoute('recipe_ingredient');
         }
 
