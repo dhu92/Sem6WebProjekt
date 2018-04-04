@@ -30,9 +30,7 @@ class RecipeIngredientController extends Controller
             /*$data = new RecipeIngredient();
             $data->setAmount($formData[1]);
             $data->setMeasurement($formData[2]);
-            $entityManager = $this ->getDoctrine()->getManager();
-            $entityManager->persist($recipeData);
-            $entityManager->flush();*/
+            $this->>save($data);*/
             $this->addFlash('success', 'Recipe added successfully');
             return $this->redirectToRoute('recipe_ingredient');
         }

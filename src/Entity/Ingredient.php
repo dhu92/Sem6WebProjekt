@@ -15,6 +15,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Ingredient
 {
+
+    /*public function getClass(){
+        return Ingredient::class;
+    }*/
     /**
      * @return mixed
      */
