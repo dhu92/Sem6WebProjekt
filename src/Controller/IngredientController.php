@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\IngredientType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -11,10 +12,10 @@ class IngredientController extends Controller
     /**
      * @Route("/ingredient", name="ingredient")
      */
-    public function index()
+    public function index(Request $request)
     {
 
-        $form = $this->createForm(RecipeFormType::class);
+        $form = $this->createForm(IngredientType::class);
 
         $form->handleRequest($request);
 
