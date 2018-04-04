@@ -29,4 +29,14 @@ class IngredientController extends Controller
         $entityManager->persist($data);
         $entityManager->flush();
     }
+
+    private function getById($id){
+        $data = $this->getDoctrine()->getRepository(Ingredient::class)->find($id);
+        if (!$data) {
+            throw $this->createNotFoundException(
+                'No product found for id '.$id
+            );
+        }
+        return $data;
+    }
 }
