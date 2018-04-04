@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -12,6 +13,12 @@ class IngredientController extends Controller
      */
     public function index()
     {
+
+        $form = $this->createForm(RecipeFormType::class);
+
+        $form->handleRequest($request);
+
+
         return $this->render('ingredient/index.html.twig', [
             'controller_name' => 'IngredientController',
         ]);
