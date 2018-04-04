@@ -28,8 +28,8 @@ class RecipeIngredientController extends Controller
             //dump funktioniert wie sysout nur zeigt es die Informationen direkt auf der Seite an
             //dump($recipeData);
             /*$data = new RecipeIngredient();
-            $data->setAmount($formData[1]);
-            $data->setMeasurement($formData[2]);
+            $data->setAmount($formData['amount']);
+            $data->setMeasurement($formData['measurement]);
             $this->>save($data);*/
             $this->addFlash('success', 'Recipe added successfully');
             return $this->redirectToRoute('recipe_ingredient');

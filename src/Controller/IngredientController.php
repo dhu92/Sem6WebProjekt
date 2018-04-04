@@ -22,6 +22,7 @@ class IngredientController extends Controller
 
         return $this->render('ingredient/index.html.twig', [
             'controller_name' => 'IngredientController',
+            'ingredient_form' => $form->createView()
         ]);
     }
 
@@ -30,6 +31,7 @@ class IngredientController extends Controller
         $entityManager->persist($data);
         $entityManager->flush();
     }
+
 
     private function getById($id){
         $data = $this->getDoctrine()->getRepository(Ingredient::class)->find($id);

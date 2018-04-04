@@ -3,6 +3,7 @@
 namespace App\Form;
 
 //use App\Entity\IngredientTranslation;
+use App\Controller\LanguageController;
 use App\Entity\Language;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -13,20 +14,11 @@ class IngredientType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        /*$builder
+        $builder->add('category', EntityType::class, array(
+            'class' => Language::class,
+            'choice_label' => 'name',
+        ));
 
-            //->add('ingredientID')
-            //->add('language')
-        ;*/
-
-        $builder
-            ->add('name')
-            ->add('langauge', 'entity', [
-                'class' => 'App\Entity\Language',
-                'property' => 'name',
-                'placeholder' => 'Select',
-                'choices' => $this->choices,
-            ]);
     }
 
 }
