@@ -16,4 +16,10 @@ class IngredientController extends Controller
             'controller_name' => 'IngredientController',
         ]);
     }
+
+    private function save($data){
+        $entityManager = $this ->getDoctrine()->getManager();
+        $entityManager->persist($data);
+        $entityManager->flush();
+    }
 }

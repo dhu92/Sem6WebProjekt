@@ -25,7 +25,6 @@ class RecipeIngredientController extends Controller
             //hier könnte z.b. mit recipeData[name] auf den Namen zugegriffen werden
             $formData = $form->getData();
 
-
             //dump funktioniert wie sysout nur zeigt es die Informationen direkt auf der Seite an
             //dump($recipeData);
             /*$data = new RecipeIngredient();
@@ -42,5 +41,11 @@ class RecipeIngredientController extends Controller
             'controller_name' => 'RecipeIngredientController',
             'recipe_form' => $form->createView()
         ]);
+    }
+
+    private function save($data){
+        $entityManager = $this ->getDoctrine()->getManager();
+        $entityManager->persist($data);
+        $entityManager->flush();
     }
 }

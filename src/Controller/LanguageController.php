@@ -14,12 +14,9 @@ class LanguageController extends Controller
      */
     public function addLanguage($name)
     {
-        $entityManager = $this->getDoctrine()->getManager();
-
         $language = new Language();
         $language->setName($name);
-        $entityManager->persist($language);
-        $entityManager->flush();
+        $this->save($language);
        /* return $this->render('language/index.html.twig', [
             'controller_name' => 'LanguageController',
         ]);*/
@@ -38,5 +35,11 @@ class LanguageController extends Controller
         }
         return new Response('Check out this great language: '.$language->getName());
 
+    }
+
+    private function save($data){
+        $entityManager = $this ->getDoctrine()->getManager();
+        $entityManager->persist($data);
+        $entityManager->flush();
     }
 }

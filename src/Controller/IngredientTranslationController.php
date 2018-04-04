@@ -16,4 +16,10 @@ class IngredientTranslationController extends Controller
             'controller_name' => 'IngredientTranslationController',
         ]);
     }
+
+    private function save($data){
+        $entityManager = $this ->getDoctrine()->getManager();
+        $entityManager->persist($data);
+        $entityManager->flush();
+    }
 }

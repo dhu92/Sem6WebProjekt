@@ -16,4 +16,10 @@ class RecipeController extends Controller
             'controller_name' => 'RecipeController',
         ]);
     }
+
+    private function save($data){
+        $entityManager = $this ->getDoctrine()->getManager();
+        $entityManager->persist($data);
+        $entityManager->flush();
+    }
 }
