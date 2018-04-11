@@ -19,7 +19,7 @@ class IngredientTranslationController extends Controller
     }
 
     public function save($data){
-        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $this ->getDoctrine()->getManager();
         $entityManager->persist($data);
         $entityManager->flush();
     }

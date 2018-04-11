@@ -51,4 +51,14 @@ class LanguageController extends Controller
         return $data;
     }
 
+    public function getByName($name){
+        $data = $this->loadAll();
+        foreach($data as $entity){
+            if(strcmp($entity->getName(), $name)){
+                return $entity;
+            }
+        }
+        return null;
+    }
+
 }
