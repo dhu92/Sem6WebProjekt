@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Form\IngredientType;
 use App\Entity\Ingredient;
 use App\Entity\IngredientTranslation;
+use App\Entity\Language;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -46,21 +47,26 @@ class IngredientController extends Controller
         $entityManager->persist($ingredient);
         $entityManager->flush();
 
-        $id = $ingredient->getId();
-
+        //$languageId = $this->getLanguageByName("German");
+        $languageId = $this->getLanguageByID(1);
         $german = new IngredientTranslation();
-        $german->setLanguage("German");
+        $german->setLanguage($languageId);
         $german->setName($data["Name_in_Deutsch"]);
-        $german->setIngredientID($id);
+        $german->setIngredientID($ingredient);
 
+        //$languageId = $this->getLanguageByName("English");
+        //$englishLanguage = $this->getLanguageByName("English");
+        $languageId = $this->getLanguageByID(2);
         $english = new IngredientTranslation();
-        $english->setLanguage("English");
+        $english->setLanguage($languageId);
         $english->setName($data["Name_in_English"]);
-        $english->setIngredientID($id);
+        $english->setIngredientID($ingredient);
 
-        $iTranslationController = new IngredientTranslationController();
-        $iTranslationController->save($german);
-        $iTranslationController->save($english);
+        $entityManager->persist($german);
+        $entityManager->flush();
+        $entityManager->persist($english);
+        $entityManager->flush();
+
     }
 
     public function loadAll(){
@@ -75,5 +81,25 @@ class IngredientController extends Controller
             );
         }
         return $data;
+    }
+
+    public function getLanguageByID($id){
+        $data = $this->getDoctrine()->getRepository(Language::class)->find($id);
+        if (!$data) {
+            throw $this->createNotFoundException(
+                'No product found for id '.$id
+            );
+        }
+        return $data;
+    }
+
+    public function getLanguageByName($name){
+        $data = $this->getDoctrine()->getRepository(Language::class)->findAll();
+        foreach($data as $entity){
+            if(strcmp($entity->getName(), $name)){
+                return $entity;
+            }
+        }
+        return null;
     }
 }
