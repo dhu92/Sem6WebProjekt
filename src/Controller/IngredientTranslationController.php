@@ -23,6 +23,10 @@ class IngredientTranslationController extends Controller
         $entityManager->flush();
     }
 
+    public function loadAll(){
+        $allLanguages = $this->getDoctrine()->getRepository()->findAll();
+    }
+
     private function getById($id){
         $data = $this->getDoctrine()->getRepository(IngredientTranslation::class)->find($id);
         if (!$data) {
