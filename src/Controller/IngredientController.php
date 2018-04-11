@@ -53,7 +53,7 @@ class IngredientController extends Controller
         $german->setLanguage($languageId);
         $german->setName($data["Name_in_Deutsch"]);
         $german->setIngredientID($ingredient);
-
+        dump($german);
         //$languageId = $this->getLanguageByName("English");
         //$englishLanguage = $this->getLanguageByName("English");
         $languageId = $this->getLanguageByID(2);
