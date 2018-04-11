@@ -98,7 +98,7 @@ class IngredientTranslation {
 
     /**
      * @ORM\OneToOne(targetEntity="Language", mappedBy="Language")
-     * @ORM\JoinColumn(name="languageid", referencedColumnName="id")
+     * @ORM\JoinColumn(name="languageID", referencedColumnName="id")
      */
     private $language;
 }
