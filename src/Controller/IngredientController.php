@@ -47,13 +47,16 @@ class IngredientController extends Controller
         $entityManager->persist($ingredient);
         $entityManager->flush();
 
-        $languageId = $this->getLanguageByName("German");
+        //$languageId = $this->getLanguageByName("German");
+        $languageId = $this->getLanguageByID(1);
         $german = new IngredientTranslation();
         $german->setLanguage($languageId);
         $german->setName($data["Name_in_Deutsch"]);
         $german->setIngredientID($ingredient);
 
-        $languageId = $this->getLanguageByName("English");
+        //$languageId = $this->getLanguageByName("English");
+        //$englishLanguage = $this->getLanguageByName("English");
+        $languageId = $this->getLanguageByID(2);
         $english = new IngredientTranslation();
         $english->setLanguage($languageId);
         $english->setName($data["Name_in_English"]);
@@ -72,6 +75,16 @@ class IngredientController extends Controller
 
     private function getById($id){
         $data = $this->getDoctrine()->getRepository(Ingredient::class)->find($id);
+        if (!$data) {
+            throw $this->createNotFoundException(
+                'No product found for id '.$id
+            );
+        }
+        return $data;
+    }
+
+    public function getLanguageByID($id){
+        $data = $this->getDoctrine()->getRepository(Language::class)->find($id);
         if (!$data) {
             throw $this->createNotFoundException(
                 'No product found for id '.$id
