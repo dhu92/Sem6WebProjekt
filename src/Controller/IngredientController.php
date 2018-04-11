@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Form\IngredientType;
+use App\Entity\Ingredient;
+use App\Entity\IngredientTranslation;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -24,7 +26,7 @@ class IngredientController extends Controller
             //anstelle von recipeData die Entity verwenden um Daten in die DB zu schreiben
             //hier könnte z.b. mit recipeData[name] auf den Namen zugegriffen werden
             $formData = $form->getData();
-
+            $this->save($formData);
             //dump funktioniert wie sysout nur zeigt es die Informationen direkt auf der Seite an
             //dump($formData);
 
@@ -37,9 +39,28 @@ class IngredientController extends Controller
     }
 
     private function save($data){
+        $ingredient = new Ingredient();
+
+        dump($data);
         $entityManager = $this ->getDoctrine()->getManager();
-        $entityManager->persist($data);
+        $entityManager->persist($ingredient);
         $entityManager->flush();
+
+        $id = $ingredient->getId();
+
+        $german = new IngredientTranslation();
+        $german->setLanguage("German");
+        $german->setName($data["Name_in_Deutsch"]);
+        $german->setIngredientID($id);
+
+        $english = new IngredientTranslation();
+        $english->setLanguage("English");
+        $english->setName($data["Name_in_English"]);
+        $english->setIngredientID($id);
+
+        $iTranslationController = new IngredientTranslationController();
+        $iTranslationController->save($german);
+        $iTranslationController->save($english);
     }
 
     public function loadAll(){
