@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use App\Entity\IngredientTranslation;
 
 class IngredientTranslationController extends Controller
 {
@@ -17,8 +18,8 @@ class IngredientTranslationController extends Controller
         ]);
     }
 
-    private function save($data){
-        $entityManager = $this ->getDoctrine()->getManager();
+    public function save($data){
+        $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($data);
         $entityManager->flush();
     }

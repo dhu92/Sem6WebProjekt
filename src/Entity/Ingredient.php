@@ -35,10 +35,10 @@ class Ingredient
         $this->id = $id;
     }
 
-    /**
+   /* /**
      * @return mixed
      */
-    public function getTranslation()
+    /*public function getTranslation()
     {
         return $this->translation;
     }
@@ -46,10 +46,10 @@ class Ingredient
     /**
      * @param mixed $translation
      */
-    public function setTranslation($translation): void
+    /*public function setTranslation($translation): void
     {
         $this->translation = $translation;
-    }
+    }*/
 
     /**
      * @ORM\Column(type="integer")
@@ -57,10 +57,11 @@ class Ingredient
      * @ORM\Id
      */
     private $id;
-
+/*
     /**
      * @ORM\OneToMany(targetEntity="IngredientTranslation", mappedBy="IngredientTranslation")
      * @ORM\JoinColumn(name="id", referencedColumnName="recipeID")
      */
-    private $translation;
+    /*private $translation;
+    */
 }
