@@ -7,6 +7,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class RecipeFormType extends AbstractType
 {
@@ -18,13 +20,12 @@ class RecipeFormType extends AbstractType
             ->add('measurement')
         ;*/
 
-        $builder->add('ingredients', 'collection', array(
-            'type' => new RecipeIngredientType();
-                'allow_add' => true;
-                'allow_delete' => true;
-                'prototype' => true;
+        $builder->add('ingredients', CollectionType::class, array(
+                'entry_type' => RecipeIngredientType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'prototype' => true,
                 'prototype_name' => 'tag__name__'
-            )
         ));
        /* $builder->add('ingredients', CollectionType::class, array(
             'selectedIngredients' => RecipeIngredient::class,
