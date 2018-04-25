@@ -14,9 +14,17 @@ class RecipeController extends Controller
      */
     public function index()
     {
-        return $this->render('recipe/index.html.twig', [
+        $response = $this->render('recipe/index.html.twig', [
             'controller_name' => 'RecipeController',
         ]);
+        // cache for 3600 seconds
+        $response->setSharedMaxAge(3600);
+
+        // (optional) set a custom Cache-Control directive
+        $response->headers->addCacheControlDirective('must-revalidate', true);
+
+        return $response;
+
     }
 
     private function save($data){

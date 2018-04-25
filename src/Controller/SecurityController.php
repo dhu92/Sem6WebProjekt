@@ -25,9 +25,17 @@ class SecurityController extends Controller{
         // last username entered by the user
         $lastUsername = $au->getLastUsername();
 
-        return $this->render('security/index.html.twig', array(
+        $response = $this->render('security/index.html.twig', array(
             'last_username' => $lastUsername,
             'error'         => $error,
         ));
+
+        // cache for 3600 seconds
+        $response->setSharedMaxAge(3600);
+
+        // (optional) set a custom Cache-Control directive
+        $response->headers->addCacheControlDirective('must-revalidate', true);
+
+        return $response;
     }
 }

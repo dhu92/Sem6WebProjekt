@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class IngredientController extends Controller
 {
     /**
+     *
      * @Route("/ingredient", name="ingredient")
      */
     public function index(Request $request)
@@ -33,7 +34,7 @@ class IngredientController extends Controller
 
         }
 
-        return $this->render('ingredient/index.html.twig', [
+        $this->render('ingredient/index.html.twig', [
             'controller_name' => 'IngredientController',
             'ingredient_form' => $form->createView()
         ]);
