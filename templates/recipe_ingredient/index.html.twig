@@ -14,7 +14,15 @@
                 <input type="submit" value="Send" class="btn btn-success">
             </div>
         </div>
+        <h3>Tags</h3>
+        <ul class="ingredients">
+            {# iterate over each existing tag and render its only field: name #}
+            {% for tag in form.tags %}
+                <li>{{ form_row(tag.name) }}</li>
+            {% endfor %}
+        </ul>
 
         {{ form_end(recipe_form) }}
     </div>
+
 {% endblock %}

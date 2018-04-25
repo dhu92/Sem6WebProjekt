@@ -12,11 +12,28 @@ class RecipeFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
+       /* $builder
             ->add('Name', TextType::class)
             ->add('amount')
             ->add('measurement')
-        ;
+        ;*/
+
+        $builder->add('ingredients', 'collection', array(
+            'type' => new RecipeIngredientType();
+                'allow_add' => true;
+                'allow_delete' => true;
+                'prototype' => true;
+                'prototype_name' => 'tag__name__'
+            )
+        ));
+       /* $builder->add('ingredients', CollectionType::class, array(
+            'selectedIngredients' => RecipeIngredient::class,
+            'entry_options' => array(
+
+            ),
+            'allow_add' => true,
+            'allow_delete' => true,
+        ));*/
     }
 
     /*public function configureOptions(OptionsResolver $resolver)
