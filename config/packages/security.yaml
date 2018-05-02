@@ -1,13 +1,20 @@
 security:
     encoders:
         App\Entity\User:
-            algorithm: bcrypt
+            algorithm: plaintext
+
     providers:
         our_db_provider:
             entity:
                 class: App\Entity\User
+                property: username
+
+                # if you're using multiple entity managers
+                # manager_name: customer
 
     firewalls:
+
+
         main:
             pattern:    ^/
             http_basic: ~
@@ -17,6 +24,12 @@ security:
             form_login:
                 login_path: login
                 check_path: login
+            logout:
+                path:   /logout
+                target: /
+
+
+
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
@@ -24,7 +37,12 @@ security:
 
     access_control:
            # require ROLE_ADMIN for /admin*
-           - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-           #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-           #- { path: ^/, roles: ROLE_USER }
-           #- { path: ^/, roles: ROLE_ADMIN }
+           - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+           - { path: ^/, roles: ROLE_USER } # fix to /* when done
+            # activate different ways to authenticate
+
+            # http_basic: true
+            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+
+            # form_login: true
+            # https://symfony.com/doc/current/security/form_login_setup.html
