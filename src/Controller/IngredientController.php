@@ -34,7 +34,7 @@ class IngredientController extends Controller
 
         }
 
-        $this->render('ingredient/index.html.twig', [
+        return $this->render('ingredient/index.html.twig', [
             'controller_name' => 'IngredientController',
             'ingredient_form' => $form->createView()
         ]);

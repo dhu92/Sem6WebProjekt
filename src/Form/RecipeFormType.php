@@ -20,13 +20,12 @@ class RecipeFormType extends AbstractType
             ->add('measurement')
         ;*/
 
-        $builder->add('ingredients', CollectionType::class, array(
+        $builder->add('ingredients', CollectionType::class, [
                 'entry_type' => RecipeIngredientType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
-                'prototype' => true,
-                'prototype_name' => 'tag__name__'
-        ));
+                'by_reference' => false
+        ]);
        /* $builder->add('ingredients', CollectionType::class, array(
             'selectedIngredients' => RecipeIngredient::class,
             'entry_options' => array(
@@ -35,6 +34,7 @@ class RecipeFormType extends AbstractType
             'allow_add' => true,
             'allow_delete' => true,
         ));*/
+
     }
 
     /*public function configureOptions(OptionsResolver $resolver)
