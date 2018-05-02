@@ -42,6 +42,43 @@ class RecipeIngredientController extends Controller
         ]);
     }
 
+    public function homeAction(Request $request){
+        return array_merge(
+            $this->addIngredientController($request, 'setIngredient')
+        );
+    }
+
+    protected function addIngredientController(Request $request, $name)
+    {
+
+        $form = $this
+            ->get('form.factory')
+            ->add('fruits', CollectionType::class, [
+                'entry_type'   => RecipeFormType::class,
+                'label'        => 'List and order your fruits by preference.',
+                'allow_add'    => true,
+                'allow_delete' => true,
+                'prototype'    => true,
+                'required'     => false,
+                'attr'         => [
+                    'class' => "{$name}-collection",
+                ],
+            ])
+            ->add('submit', SubmitType::class)
+            ->getForm()
+        ;
+
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $data = $form->getData();
+        }
+
+        return [
+            $name         => $form->createView(),
+            "{$name}Data" => $data,
+        ];
+    }
+
 
     private function save($data){
         $entityManager = $this ->getDoctrine()->getManager();

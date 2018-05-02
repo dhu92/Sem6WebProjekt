@@ -1,4 +1,8 @@
-{% extends 'base.html.twig' %}
+{% extends 'jquery.collection.html.twig' %}
+
+{% block extra_js %}
+    <script src="{{ asset('js/jquery.collection.js') }}"></script>
+{% endblock %}
 
 {% block title %}Add Recipe{% endblock %}
 
@@ -6,6 +10,13 @@
 <div>
     {{ form_start(recipe_form) }}
     {{ form_widget(recipe_form) }}
+
+    {%
+        form_theme setIngredient
+        'jquery.collection.html.twig'
+        'buttonTemplate.html.twig'
+    %}
+    {{ form(setIngredient) }}
 
     <div class="form-group row">
         <div class="col-sm-2"></div>
@@ -15,5 +26,14 @@
     </div>
     {{ form_end(recipe_form) }}
 </div>
+
+{% endblock %}
+
+
+{% block script %}
+
+    <script type="text/javascript">
+        $('.setIngredient-collection').collection({allow_duplicate: false});
+    </script>
 
 {% endblock %}
