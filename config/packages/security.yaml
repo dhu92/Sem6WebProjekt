@@ -1,33 +1,42 @@
 security:
-    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
-    providers:
-        in_memory: { memory: ~ }
-            #users:
-            #    admin:
-            #        password:
-            #        roles: 'ROLE_ADMIN'
-    #OR
-    #providers:
-    #   key:
-    #       entity:
-    #           class:
-    #           property: 'username'
     encoders:
-        ...: plaintext|bcrypt
+        App\Entity\User:
+            algorithm: plaintext
+
+    providers:
+        our_db_provider:
+            entity:
+                class: App\Entity\User
+                property: username
+
+                # if you're using multiple entity managers
+                # manager_name: customer
 
     firewalls:
+
+
+        main:
+            pattern:    ^/
+            http_basic: ~
+            provider: our_db_provider
+
+            anonymous: ~
+            form_login:
+                login_path: login
+                check_path: login
+            logout:
+                path:   /logout
+                target: /
+
         dev:
-            # //exclude WDTrequests
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        main:
-            anonymous: true
-            pattern: /
-            http_basic: ~
-                #form_login:
-                    #login_path: login
-                    #check_path: login
 
+
+    access_control:
+           # require ROLE_ADMIN for /admin*
+           - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+           - { path: ^/, roles: ROLE_USER } # fix to /* when done
             # activate different ways to authenticate
 
             # http_basic: true
@@ -35,9 +44,3 @@ security:
 
             # form_login: true
             # https://symfony.com/doc/current/security/form_login_setup.html
-
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
-    access_control:
-        - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/profile, roles: ROLE_USER }
