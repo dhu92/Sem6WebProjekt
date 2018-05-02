@@ -4,10 +4,15 @@ namespace App\Controller;
 
 use App\Entity\RecipeIngredient;
 use App\Form\RecipeFormType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormBuilderInterface;
+use App\Entity\IngredientTranslation;
 
 class RecipeIngredientController extends Controller
 {
@@ -35,48 +40,71 @@ class RecipeIngredientController extends Controller
             $this->addFlash('success', 'Recipe added successfully');
             return $this->redirectToRoute('recipe_ingredient');
         }
-
+/*
         return $this->render('recipe_ingredient/index.html.twig', [
             'controller_name' => 'RecipeIngredientController',
             'recipe_form' => $form->createView()
-        ]);
+        ]);*/
+        return $this->addIngredientController($request, "setIngredient");
     }
 
     public function homeAction(Request $request){
-        return array_merge(
-            $this->addIngredientController($request, 'setIngredient')
-        );
+        return //array_merge(
+            $this->addIngredientController($request, 'setIngredient');
+       // );
     }
 
     protected function addIngredientController(Request $request, $name)
     {
+        $trans = new IngredientTranslation();
+        $trans->setLanguage("german");
+        $trans->setName("testname");
+        $fdata = [
+            'ingredients' => [
+                $trans,
+                new IngredientTranslation("Apple"),
+                new IngredientTranslation("Banana"),
+                new IngredientTranslation("Orange")
+
+            ]
+        ];
+        dump($fdata);
 
         $form = $this
             ->get('form.factory')
-            ->add('fruits', CollectionType::class, [
+            ->createNamedBuilder($name, FormType::class, $fdata)
+            ->add('ingredients', CollectionType::class, [
                 'entry_type'   => RecipeFormType::class,
-                'label'        => 'List and order your fruits by preference.',
+                'label'        => 'List and order your ingredients by preference.',
                 'allow_add'    => true,
                 'allow_delete' => true,
                 'prototype'    => true,
                 'required'     => false,
-                'attr'         => [
-                    'class' => "{$name}-collection",
+                'attr'   =>  [
+                    'class' => 'setIngredient-collection',
                 ],
             ])
             ->add('submit', SubmitType::class)
             ->getForm()
         ;
 
-        $form->handleRequest($request);
-        if ($form->isValid()) {
+       // $form->handleRequest($request);
+       /* if ($form->isValid()) {
             $data = $form->getData();
-        }
+        }*/
 
-        return [
+        return $this->render('recipe_ingredient/index.html.twig', [
+            'controller_name' => 'RecipeIngredientController',
+            'setIngredientData' => $fdata,
+            'ingredient_form' => $form->createView(),
+
+        ]);
+        /*return [
             $name         => $form->createView(),
-            "{$name}Data" => $data,
+            "setIngredientData" => $data,
         ];
+*/
+
     }
 
 
