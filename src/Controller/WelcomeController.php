@@ -12,8 +12,15 @@ class WelcomeController extends Controller
      */
     public function index()
     {
-        return $this->render('welcome/index.html.twig', [
+        $response = $this->render('welcome/index.html.twig', [
             'controller_name' => 'WelcomeController',
         ]);
+        // cache for 3600 seconds
+        $response->setSharedMaxAge(3600);
+
+        // (optional) set a custom Cache-Control directive
+        $response->headers->addCacheControlDirective('must-revalidate', true);
+
+        return $response;
     }
 }

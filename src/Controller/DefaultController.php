@@ -20,8 +20,16 @@ class DefaultController{
      * @Route("/hello/{name}", name="hello")
      */
     public function index($name){
-        return $this->render('ingredient/index.html.twig', [
+        $response =  $this->render('ingredient/index.html.twig', [
             'controller_name' => 'IngredientController',
         ]);
+
+        // cache for 3600 seconds
+        $response->setSharedMaxAge(3600);
+
+        // (optional) set a custom Cache-Control directive
+        $response->headers->addCacheControlDirective('must-revalidate', true);
+
+        return $response;
     }
 }
