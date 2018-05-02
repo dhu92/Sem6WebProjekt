@@ -1,72 +1,48 @@
-{% extends 'base.html.twig' %}
+{% extends 'jquery.collection.html.twig' %}
+
+{% block extra_js %}
+    <script src="{{ asset('js/jquery.collection.js') }}"></script>
+{% endblock %}
 
 {% block title %}Add Recipe{% endblock %}
 
 {% block body %}
+<div>
+    {{ form_start(recipe_form) }}
+    {{ form_widget(recipe_form) }}
 
-    <script>
-        $('.btn-add').click(function(event) {
-            var collectionHolder = $('#' + $(this).attr('data-target'));
-            var prototype = collectionHolder.attr('data-prototype');
-            var form = prototype.replace(/__name__/g, collectionHolder.children().length);
+    {%
+        form_theme setIngredient
+        'jquery.collection.html.twig'
+        'buttonTemplate.html.twig'
+    %}
+    {{ form(setIngredient) }}
 
-            collectionHolder.append(form);
-
-            return false;
-        });
-        $('.btn-remove').live('click', function(event) {
-            var name = $(this).attr('data-related');
-            $('*[data-content="'+name+'"]').remove();
-
-            return false;
-        });
-    </script>
-    <div>
-        {{ form_start(recipe_form) }}
-        {{ form_widget(recipe_form) }}
-
-        <div class="form-group row">
-            <div class="col-sm-2"></div>
-            <div class="col-sm-10">
-                <input type="submit" value="Send" class="btn btn-success">
-            </div>
-            <form action="{{ path('add_post') }}" method="POST">
-                {{ form_errors(form) }}
-                <fieldset>
-                    <legend>Add a new post</legend>
-                    {{ form_row(form.title) }}
-                    {{ form_row(form.content) }}
-
-                    <div id="post_tags" data-prototype="{{ _self.widget_prototype(form.tags, 'Remove tag')|escape }}">
-                        {% for widget in form.tags.children %}
-                            {{ _self.widget_prototype(widget, 'Remove tag') }}
-                        {% endfor %}
-                    </div>
-
-                    <a class="btn-add" data-target="post_tags">Add tag</a>
-                </fieldset>
-
-                {{ form_widget(form._token) }}
-
-                <input type="submit" value="Add post" />
-            </form>
+    <div class="form-group row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-10">
+            <input type="submit" value="Send" class="btn btn-success">
         </div>
-        {% macro widget_prototype(widget, remove_text) %}
-            {% if widget.get('prototype') %}
-                {% set form = widget.get('prototype') %}
-                {% set name = widget.get('prototype').get('name') %}
-            {% else %}
-                {% set form = widget %}
-                {% set name = widget.get('full_name') %}
-            {% endif %}
-
-            <div data-content="{{ name }}">
-                <a class="btn-remove" data-related="{{ name }}">{{ remove_text }}</a>
-                {{ form_widget(form) }}
-            </div>
-        {% endmacro %}
-
-        {{ form_end(recipe_form) }}
     </div>
+
+    {% for ingredient in recipe_form.ingredients %}
+        <div class="col-xs-4">
+            {{ form_errors(ingredient.name) }}
+            {{ form_row(ingredient.language) }}
+
+
+        </div>
+    {% endfor %}
+    {{ form_end(recipe_form) }}
+</div>
+
+{% endblock %}
+
+
+{% block script %}
+
+    <script type="text/javascript">
+        $('.setIngredient-collection').collection({allow_duplicate: false});
+    </script>
 
 {% endblock %}

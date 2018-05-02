@@ -1,0 +1,15 @@
+{% block Ingredient_label %}{% endblock %}
+
+{% block Ingredient_widget %}
+
+    <div class="row">
+        <div class="col-md-5">
+            {{ form_widget(form.name) }}
+        </div>
+        <div class="col-md-3">
+            <a href="#" class="collection-remove btn btn-default" title="Delete ingredient"><span class="glyphicon glyphicon-trash"></span></a>
+            <a href="#" class="collection-add btn btn-default" title="Add ingredient"><span class="glyphicon glyphicon-plus-sign"></span></a>
+        </div>
+    </div>
+
+{% endblock %}
