@@ -28,8 +28,6 @@ security:
                 path:   /logout
                 target: /
 
-
-
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
