@@ -3,6 +3,7 @@
 namespace App\Form;
 
 //use App\Entity\RecipeIngredient;
+use App\Entity\IngredientTranslation;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -12,13 +13,20 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class RecipeFormType extends AbstractType
 {
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-       /* $builder
+        $ingredients =  array();
+        $ingredient = new IngredientTranslation();
+        $ingredient->setName("test");
+        $ingredient->setLanguage("german");
+        $ingredients["1"] = ($ingredient);
+
+        $builder
             ->add('Name', TextType::class)
             ->add('amount')
             ->add('measurement')
-        ;*/
+        ;
 
         $builder->add('ingredients', CollectionType::class, [
                 'entry_type' => RecipeIngredientType::class,
