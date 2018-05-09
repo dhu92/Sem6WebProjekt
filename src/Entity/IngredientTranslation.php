@@ -8,12 +8,25 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Table(name="IngredientTranslation")
  * @ORM\Entity
  */
 class IngredientTranslation {
+
+    public $collection;
+
+
+    public function getIngredients() : Collection{
+        $test1 = new IngredientTranslation();
+        $test1->setName("Apple");
+        $collection = new ArrayCollection();
+        $collection->add($test1);
+        return $collection;
+    }
     /**
      * @return mixed
      */
