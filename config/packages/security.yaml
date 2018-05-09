@@ -16,7 +16,7 @@ security:
 
 
         main:
-            pattern:    ^/
+            pattern:    ^/user
             http_basic: ~
             provider: our_db_provider
 
@@ -29,6 +29,7 @@ security:
                 target: /
 
         dev:
+            # //exclude WDTrequests
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 

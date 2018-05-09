@@ -34,10 +34,17 @@ class IngredientController extends Controller
 
         }
 
-        return $this->render('ingredient/index.html.twig', [
+        $response = $this->render('ingredient/index.html.twig', [
             'controller_name' => 'IngredientController',
-            'ingredient_form' => $form->createView()
-        ]);
+            'ingredient_form' => $form->createView()]);
+
+        // cache for 3600 seconds
+        $response->setSharedMaxAge(3600);
+
+        // (optional) set a custom Cache-Control directive
+        $response->headers->addCacheControlDirective('must-revalidate', true);
+
+        return $response;
     }
 
     private function save($data){
