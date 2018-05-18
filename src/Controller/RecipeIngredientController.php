@@ -32,31 +32,17 @@ class RecipeIngredientController extends Controller
 
         if($recipeform->isSubmitted() && $recipeform->isValid()){
 
-            //anstelle von recipeData die Entity verwenden um Daten in die DB zu schreiben
-            //hier könnte z.b. mit recipeData[name] auf den Namen zugegriffen werden
-           // $formData = $recipeform->getData();
-
-            //dump funktioniert wie sysout nur zeigt es die Informationen direkt auf der Seite an
-            //dump($recipeData);
-            /*$data = new RecipeIngredient();
-            $data->setAmount($formData['amount']);
-            $data->setMeasurement($formData['measurement]);
-            $this->>save($data);*/
             $this->addFlash('success', 'Recipe added successfully');
             return $this->redirectToRoute('recipe_ingredient');
         }
-/*
-        return $this->render('recipe_ingredient/index.html.twig', [
-            'controller_name' => 'RecipeIngredientController',
-            'recipe_form' => $form->createView()
-        ]);*/
+
         return $this->addIngredientController($request, "setIngredient", $recipeform);
     }
 
     public function homeAction(Request $request){
-        return //array_merge(
+        return
             $this->addIngredientController($request, 'setIngredient', $this->recipeform);
-       // );
+
     }
 
     protected function addIngredientController(Request $request, $name, $rform)
