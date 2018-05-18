@@ -15,12 +15,12 @@ class IngredientType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         //dropdown
-        /*$builder
+        $builder
             ->add('name')
             ->add('language', EntityType::class, array(
             'class' => Language::class,
             'choice_label' => 'name',
-        ));*/
+        ));
 
         $builder
             ->add('Name_in_Deutsch')

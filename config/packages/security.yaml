@@ -14,9 +14,9 @@ security:
 
     firewalls:
 
-
         main:
-            pattern:    ^/user
+#TODO: add ^\user as pattern
+            pattern:    ^/
             http_basic: ~
             provider: our_db_provider
 

@@ -23,9 +23,18 @@ class IngredientTranslation {
     public function getIngredients() : Collection{
         $test1 = new IngredientTranslation();
         $test1->setName("Apple");
-        $collection = new ArrayCollection();
+        $collection = new ArrayCollection();        $test2 = new IngredientTranslation();
+        $test2->setName("Banana");
+        $test3 = new IngredientTranslation();
+        $test3->setName("Orange");
         $collection->add($test1);
+        $collection->add($test2);
+        $collection->add($test3);
         return $collection;
+    }
+
+    public function setLoadedIngredients($allingredients){
+        $this->collection = $allingredients;
     }
     /**
      * @return mixed

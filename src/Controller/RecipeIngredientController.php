@@ -79,10 +79,11 @@ class RecipeIngredientController extends Controller
         ];
         dump($fdata);
         $collection = new ArrayCollection();
-        $collection->add($test1);
+        //$collection = $this->loadAll();
+
         $form = $this
             ->get('form.factory')
-            ->createNamedBuilder('setIngredient', FormType::class, $test2)//, $fdata)
+            ->createNamedBuilder('setIngredient', FormType::class, new IngredientTranslation())//, $fdata)
             ->add('ingredients', CollectionType::class, [
                 'entry_type'   => RecipeFormType::class,
                 'label'        => 'List and order your ingredients by preference.',
@@ -117,8 +118,9 @@ class RecipeIngredientController extends Controller
         $entityManager->flush();
     }
 
-    public function loadAll(){
-        $allLanguages = $this->getDoctrine()->getRepository()->findAll();
+    public function loadAll() : Collection{
+        $allIngredientTranslations = $this->getDoctrine()->getRepository()->findAll();
+        return $allIngredientTranslations;
     }
 
     private function getById($id){
