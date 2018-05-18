@@ -1,18 +1,22 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: David
+ * Date: 5/18/2018
+ * Time: 11:42 AM
+ */
 
 namespace App\Form;
 
-//use App\Entity\IngredientTranslation;
-use App\Controller\LanguageController;
+
 use App\Entity\IngredientTranslation;
 use App\Entity\Language;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
-class IngredientType extends AbstractType
-{
+class IngredientSelectType extends AbstractType{
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         //dropdown
@@ -21,20 +25,11 @@ class IngredientType extends AbstractType
                 'class' => IngredientTranslation::class,
                 'choice_label' => 'name',
             ))
-
 //            ->add('language', EntityType::class, array(
-//            'class' => Language::class,
-//            'choice_label' => 'name',
-//        ))
-        ;
-
-//        $builder
-//            ->add('Name_in_Deutsch')
-//            ->add('Name_in_English')
-//        ;
-
-
-
+//                'class' => Language::class,
+//                'choice_label' => 'name',
+//            ))
+            ;
     }
 
 }

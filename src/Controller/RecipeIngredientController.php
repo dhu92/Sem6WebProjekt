@@ -64,8 +64,6 @@ class RecipeIngredientController extends Controller
             ]
         ];
         dump($fdata);
-        $collection = new ArrayCollection();
-        //$collection = $this->loadAll();
 
         $form = $this
             ->get('form.factory')
@@ -84,6 +82,7 @@ class RecipeIngredientController extends Controller
             ->add('submit', SubmitType::class)
             ->getForm()
         ;
+
 
 
         return $this->render('recipe_ingredient/index.html.twig', [
@@ -106,7 +105,8 @@ class RecipeIngredientController extends Controller
 
     public function loadAll() : Collection{
         $allIngredientTranslations = $this->getDoctrine()->getRepository()->findAll();
-        return $allIngredientTranslations;
+            return $allIngredientTranslations;
+
     }
 
     private function getById($id){

@@ -24,7 +24,7 @@ class IngredientTranslation {
         $test1 = new IngredientTranslation();
         $test1->setName("Empty");
         $collection = new ArrayCollection();
-        $test2 = new IngredientTranslation();
+//        $test2 = new IngredientTranslation();
 //        $test2->setName("Banana");
 //        $test3 = new IngredientTranslation();
 //        $test3->setName("Orange");

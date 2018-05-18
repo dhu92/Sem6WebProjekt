@@ -23,8 +23,25 @@ class RecipeFormType extends AbstractType
 //            ));
 
         $builder
-            ->add('name', TextType::class)
-            ->add('language', TextType::class);
+//            ->add('name', IngredientSelectType::class, array(
+//                'class' => IngredientTranslation::class,
+//                'choice_label' => 'name',
+//            ))
+//            ->add('language', EntityType::class, array(
+//                'class' => Language::class,
+//                'choice_label' => 'name',
+//            ));
+//            ->add('name', TextType::class)
+            ->add('ingredients', IngredientType::class, [
+                'data' => [
+                    'ingredientlist' => ['field_type' => EntityType::class,
+                        'class' => 'IngredientTranslation',
+                        'choice_label' => 'name',
+                    ]
+                ]
+            ])
+//            ->add('language', TextType::class)
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
