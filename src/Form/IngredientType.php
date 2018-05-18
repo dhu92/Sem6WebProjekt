@@ -17,16 +17,10 @@ class IngredientType extends AbstractType
     {
         //dropdown
         $builder
-            ->add('name', EntityType::class, array(
-                'class' => IngredientTranslation::class,
-                'choice_label' => 'name',
-            ))
-            ->add('amount')
-            ->add('measurement')
+//            ->add('name')
+            ->add('name_in_german')
+            ->add('name_in_english')
         ;
-
-
-
 
     }
 

@@ -16,7 +16,7 @@ class RecipeFormType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-            ->add('ingredients', IngredientType::class, [
+            ->add('ingredients', IngredientSelectType::class, [
                 'data' => [
                     'ingredientlist' => ['field_type' => EntityType::class,
                         'class' => 'IngredientTranslation',

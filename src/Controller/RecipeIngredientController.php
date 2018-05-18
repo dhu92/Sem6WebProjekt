@@ -86,7 +86,6 @@ class RecipeIngredientController extends Controller
     public function loadAll() : Collection{
         $allIngredientTranslations = $this->getDoctrine()->getRepository()->findAll();
             return $allIngredientTranslations;
-
     }
 
     private function getById($id){

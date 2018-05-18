@@ -49,25 +49,24 @@ class IngredientController extends Controller
 
     private function save($data){
         $ingredient = new Ingredient();
-
-        dump($data);
+//        dump($data);
         $entityManager = $this ->getDoctrine()->getManager();
         $entityManager->persist($ingredient);
         $entityManager->flush();
-
-        //$languageId = $this->getLanguageByName("German");
-        $languageId = $this->getLanguageByID(1);
+        $id = $ingredient->getId();
+//        $languageId = $this->getLanguageByName("German");
+//        $languageId = $this->getLanguageByID(1);
         $german = new IngredientTranslation();
-        $german->setLanguage($languageId);
-        $german->setName($data["Name_in_Deutsch"]);
+        $german->setLanguage($this->getLanguageByName("German"));
+        $german->setName($data["name_in_german"]);
         $german->setIngredientID($ingredient);
         dump($german);
         //$languageId = $this->getLanguageByName("English");
-        //$englishLanguage = $this->getLanguageByName("English");
-        $languageId = $this->getLanguageByID(2);
+//        $englishLanguage = $this->getLanguageByName("English");
+//        $languageId = $this->getLanguageByID(2);
         $english = new IngredientTranslation();
-        $english->setLanguage($languageId);
-        $english->setName($data["Name_in_English"]);
+        $english->setLanguage($this->getLanguageByName("English"));
+        $english->setName($data["name_in_english"]);
         $english->setIngredientID($ingredient);
 
         $entityManager->persist($german);
