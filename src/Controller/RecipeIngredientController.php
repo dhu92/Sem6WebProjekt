@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\RecipeIngredient;
 use App\Form\RecipeFormType;
+use App\Form\RecipeIngredientType;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -47,27 +48,9 @@ class RecipeIngredientController extends Controller
 
     protected function addIngredientController(Request $request, $name, $rform)
     {
-        $trans = new IngredientTranslation();
-        $trans->setLanguage("german");
-        $trans->setName("testname");
-        $test1 = new IngredientTranslation();
-        $test1->setName("Apple");
-        $test2 = new IngredientTranslation();
-        $test2->setName("Banana");
-        $test3 = new IngredientTranslation();
-        $test3->setName("Orange");
-        $fdata = [
-            'ingredients' => [
-                $test1,
-                $test2,
-                $test3
-            ]
-        ];
-        dump($fdata);
-
         $form = $this
             ->get('form.factory')
-            ->createNamedBuilder('setIngredient', FormType::class, new IngredientTranslation())//, $fdata)
+            ->createNamedBuilder('setIngredient', FormType::class, new IngredientTranslation())
             ->add('ingredients', CollectionType::class, [
                 'entry_type'   => RecipeFormType::class,
                 'label'        => 'List and order your ingredients by preference.',
@@ -87,15 +70,12 @@ class RecipeIngredientController extends Controller
 
         return $this->render('recipe_ingredient/index.html.twig', [
             'controller_name' => 'RecipeIngredientController',
-            'setIngredientData' => $fdata,
             'ingredient_form' => $form->createView(),
             'recipe_form' => $rform->createView()
-
         ]);
 
 
     }
-
 
     private function save($data){
         $entityManager = $this ->getDoctrine()->getManager();

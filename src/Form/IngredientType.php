@@ -21,17 +21,10 @@ class IngredientType extends AbstractType
                 'class' => IngredientTranslation::class,
                 'choice_label' => 'name',
             ))
-
-//            ->add('language', EntityType::class, array(
-//            'class' => Language::class,
-//            'choice_label' => 'name',
-//        ))
+            ->add('amount')
+            ->add('measurement')
         ;
 
-//        $builder
-//            ->add('Name_in_Deutsch')
-//            ->add('Name_in_English')
-//        ;
 
 
 

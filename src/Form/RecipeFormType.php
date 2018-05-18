@@ -15,23 +15,7 @@ class RecipeFormType extends AbstractType
 {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
-//        $builder
-//            ->add('name')
-//            ->add('language', EntityType::class, array(
-//                'class' => Language::class,
-//                'choice_label' => 'name',
-//            ));
-
         $builder
-//            ->add('name', IngredientSelectType::class, array(
-//                'class' => IngredientTranslation::class,
-//                'choice_label' => 'name',
-//            ))
-//            ->add('language', EntityType::class, array(
-//                'class' => Language::class,
-//                'choice_label' => 'name',
-//            ));
-//            ->add('name', TextType::class)
             ->add('ingredients', IngredientType::class, [
                 'data' => [
                     'ingredientlist' => ['field_type' => EntityType::class,
@@ -40,7 +24,6 @@ class RecipeFormType extends AbstractType
                     ]
                 ]
             ])
-//            ->add('language', TextType::class)
         ;
     }
 
