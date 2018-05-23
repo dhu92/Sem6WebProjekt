@@ -17,7 +17,6 @@ class IngredientType extends AbstractType
     {
         //dropdown
         $builder
-//            ->add('name')
             ->add('name_in_german')
             ->add('name_in_english')
         ;

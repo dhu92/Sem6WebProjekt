@@ -24,13 +24,7 @@ class IngredientTranslation {
         $test1 = new IngredientTranslation();
         $test1->setName("Empty");
         $collection = new ArrayCollection();
-//        $test2 = new IngredientTranslation();
-//        $test2->setName("Banana");
-//        $test3 = new IngredientTranslation();
-//        $test3->setName("Orange");
         $collection->add($test1);
-//        $collection->add($test2);
-//        $collection->add($test3);
         return $collection;
     }
 
@@ -120,7 +114,7 @@ class IngredientTranslation {
     private $name;
 
     /**
-     * @ORM\OneToOne(targetEntity="Language", mappedBy="Language")
+     * @ORM\ManyToOne(targetEntity="Language")
      * @ORM\JoinColumn(name="languageID", referencedColumnName="id")
      */
     private $language;

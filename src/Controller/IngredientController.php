@@ -28,20 +28,18 @@ class IngredientController extends Controller
             //anstelle von recipeData die Entity verwenden um Daten in die DB zu schreiben
             //hier könnte z.b. mit recipeData[name] auf den Namen zugegriffen werden
             $formData = $form->getData();
+            dump($formData);
             $this->save($formData);
             //dump funktioniert wie sysout nur zeigt es die Informationen direkt auf der Seite an
-            //dump($formData);
 
         }
 
         $response = $this->render('ingredient/index.html.twig', [
             'controller_name' => 'IngredientController',
             'ingredient_form' => $form->createView()]);
-
         // cache for 3600 seconds
         $response->setSharedMaxAge(3600);
-
-        // (optional) set a custom Cache-Control directive
+//         (optional) set a custom Cache-Control directive
         $response->headers->addCacheControlDirective('must-revalidate', true);
 
         return $response;
@@ -49,24 +47,20 @@ class IngredientController extends Controller
 
     private function save($data){
         $ingredient = new Ingredient();
-//        dump($data);
         $entityManager = $this ->getDoctrine()->getManager();
         $entityManager->persist($ingredient);
         $entityManager->flush();
-        $id = $ingredient->getId();
-//        $languageId = $this->getLanguageByName("German");
-//        $languageId = $this->getLanguageByID(1);
+
         $german = new IngredientTranslation();
         $german->setLanguage($this->getLanguageByName("German"));
-        $german->setName($data["name_in_german"]);
+        $german->setName($data['name_in_german']);
         $german->setIngredientID($ingredient);
+
         dump($german);
-        //$languageId = $this->getLanguageByName("English");
-//        $englishLanguage = $this->getLanguageByName("English");
-//        $languageId = $this->getLanguageByID(2);
+
         $english = new IngredientTranslation();
         $english->setLanguage($this->getLanguageByName("English"));
-        $english->setName($data["name_in_english"]);
+        $english->setName($data['name_in_english']);
         $english->setIngredientID($ingredient);
 
         $entityManager->persist($german);
@@ -103,7 +97,7 @@ class IngredientController extends Controller
     public function getLanguageByName($name){
         $data = $this->getDoctrine()->getRepository(Language::class)->findAll();
         foreach($data as $entity){
-            if(strcmp($entity->getName(), $name)){
+            if(strcmp($entity->getName(), $name) == 0){
                 return $entity;
             }
         }
