@@ -3,6 +3,8 @@
 namespace App\Form;
 
 //use App\Entity\RecipeIngredient;
+use App\Entity\Language;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,14 +18,20 @@ class RecipeFormType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-            ->add('ingredients', IngredientSelectType::class, [
+       /*     ->add('ingredients', IngredientSelectType::class, [
                 'data' => [
                     'ingredientlist' => ['field_type' => EntityType::class,
                         'class' => 'IngredientTranslation',
                         'choice_label' => 'name',
                     ]
                 ]
-            ])
+            ])*/
+            ->add("Name")
+        //    ->add("Language")
+            ->add('Language', EntityType::class, array(
+                'class' => Language::class,
+                'choice_label' => 'name',
+            ))
         ;
     }
 
