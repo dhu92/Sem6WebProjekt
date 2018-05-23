@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\RecipeIngredient;
+use App\Form\IngredientType;
+use App\Form\RecipeBaseType;
 use App\Form\RecipeFormType;
 use App\Form\RecipeIngredientType;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -48,8 +50,10 @@ class RecipeIngredientController extends Controller
 
     protected function addIngredientController(Request $request, $name, $rform)
     {
+        $baseForm = $this->createForm(RecipeBaseType::class);
         $form = $this
             ->get('form.factory')
+
             ->createNamedBuilder('setIngredient', FormType::class, new IngredientTranslation())
             ->add('ingredients', CollectionType::class, [
                 'entry_type'   => RecipeFormType::class,
@@ -71,7 +75,7 @@ class RecipeIngredientController extends Controller
         return $this->render('recipe_ingredient/index.html.twig', [
             'controller_name' => 'RecipeIngredientController',
             'ingredient_form' => $form->createView(),
-            'recipe_form' => $rform->createView()
+            'recipe_form' => $baseForm->createView()
         ]);
 
 
