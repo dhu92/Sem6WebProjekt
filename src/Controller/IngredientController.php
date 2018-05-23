@@ -103,7 +103,7 @@ class IngredientController extends Controller
     public function getLanguageByName($name){
         $data = $this->getDoctrine()->getRepository(Language::class)->findAll();
         foreach($data as $entity){
-            if(strcmp($entity->getName(), $name)){
+            if(strcmp($entity->getName(), $name) == 0){
                 return $entity;
             }
         }
