@@ -3,6 +3,7 @@
 namespace App\Form;
 
 //use App\Entity\RecipeIngredient;
+use App\Entity\IngredientTranslation;
 use App\Entity\Language;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -26,12 +27,17 @@ class RecipeFormType extends AbstractType
                     ]
                 ]
             ])*/
-            ->add("Name")
+            ->add('Name')
         //    ->add("Language")
             ->add('Language', EntityType::class, array(
                 'class' => Language::class,
                 'choice_label' => 'name',
+            ))->add('ingredients', EntityType::class, array(
+                'class' => IngredientTranslation::class,
+                'choice_label' => 'name',
             ))
+            ->add('Amount')
+            ->add('Measurement')
         ;
     }
 

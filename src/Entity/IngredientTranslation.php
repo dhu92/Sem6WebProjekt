@@ -63,6 +63,12 @@ class IngredientTranslation {
         $this->ingredientID = $ingredientID;
     }
 
+    public function getAmount(){
+        return null;
+    }
+    public function getMeasurement(){
+        return null;
+    }
     /**
      * @return mixed
      */
@@ -118,4 +124,14 @@ class IngredientTranslation {
      * @ORM\JoinColumn(name="languageID", referencedColumnName="id")
      */
     private $language;
+/*
+    /**
+     * @ORM\Column(type="integer")
+     */
+//    private $amount;
+/*
+    /**
+     * @ORM\Column(type="string")
+     */
+//    private $mesaurement;
 }
