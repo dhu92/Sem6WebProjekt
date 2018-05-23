@@ -8,6 +8,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Table(name="Language")
@@ -15,6 +17,14 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Language
 {
+
+    public function getLanguages() : Collection {
+        $test1 = new Language();
+        $test1->setName("Empty");
+        $collection = new ArrayCollection();
+        $collection->add($test1);
+        return $collection;
+    }
     /**
      * @return mixed
      */

@@ -59,9 +59,9 @@ class Ingredient
     private $id;
 /*
     /**
-     * @ORM\OneToMany(targetEntity="IngredientTranslation", mappedBy="IngredientTranslation")
-     * @ORM\JoinColumn(name="id", referencedColumnName="recipeID")
+     * @ORM\ManyToOne(targetEntity="IngredientTranslation")
+     * @ORM\JoinColumn(name="translationId", referencedColumnName="id")
      */
-    /*private $translation;
-    */
+//    private $translation;
+
 }

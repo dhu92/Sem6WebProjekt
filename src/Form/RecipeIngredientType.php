@@ -13,8 +13,8 @@ class RecipeIngredientType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('amount')
-            ->add('measurement')
+      //      ->add('amount')
+      //      ->add('measurement')
            /* ->add('recipeID')
             ->add('ingredientID')*/
         ;

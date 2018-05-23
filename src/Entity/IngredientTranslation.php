@@ -22,15 +22,9 @@ class IngredientTranslation {
 
     public function getIngredients() : Collection{
         $test1 = new IngredientTranslation();
-        $test1->setName("Empty");
+        $test1->setName("");
         $collection = new ArrayCollection();
-//        $test2 = new IngredientTranslation();
-//        $test2->setName("Banana");
-//        $test3 = new IngredientTranslation();
-//        $test3->setName("Orange");
         $collection->add($test1);
-//        $collection->add($test2);
-//        $collection->add($test3);
         return $collection;
     }
 
@@ -69,6 +63,12 @@ class IngredientTranslation {
         $this->ingredientID = $ingredientID;
     }
 
+    public function getAmount(){
+        return null;
+    }
+    public function getMeasurement(){
+        return null;
+    }
     /**
      * @return mixed
      */
@@ -120,8 +120,18 @@ class IngredientTranslation {
     private $name;
 
     /**
-     * @ORM\OneToOne(targetEntity="Language", mappedBy="Language")
+     * @ORM\ManyToOne(targetEntity="Language")
      * @ORM\JoinColumn(name="languageID", referencedColumnName="id")
      */
     private $language;
+/*
+    /**
+     * @ORM\Column(type="integer")
+     */
+//    private $amount;
+/*
+    /**
+     * @ORM\Column(type="string")
+     */
+//    private $mesaurement;
 }
