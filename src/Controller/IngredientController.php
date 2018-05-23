@@ -57,7 +57,7 @@ class IngredientController extends Controller
 //        $languageId = $this->getLanguageByName("German");
 //        $languageId = $this->getLanguageByID(1);
         $german = new IngredientTranslation();
-        $german->setLanguage($this->getLanguageByName("German"));
+        $german->setLanguage($this->getLanguageByName("german"));
         $german->setName($data["name_in_german"]);
         $german->setIngredientID($ingredient);
         dump($german);
@@ -65,7 +65,7 @@ class IngredientController extends Controller
 //        $englishLanguage = $this->getLanguageByName("English");
 //        $languageId = $this->getLanguageByID(2);
         $english = new IngredientTranslation();
-        $english->setLanguage($this->getLanguageByName("English"));
+        $english->setLanguage($this->getLanguageByName("english"));
         $english->setName($data["name_in_english"]);
         $english->setIngredientID($ingredient);
 
