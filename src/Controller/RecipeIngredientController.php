@@ -51,30 +51,36 @@ class RecipeIngredientController extends Controller
     protected function addIngredientController(Request $request, $name, $rform)
     {
         $baseForm = $this->createForm(RecipeBaseType::class);
-        $form = $this
-            ->get('form.factory')
+//        $form = $this
+//            ->get('form.factory')
+//
+//            ->createNamedBuilder('setIngredient', FormType::class, new IngredientTranslation())
+//            ->add('ingredients', CollectionType::class, [
+//                'entry_type'   => RecipeFormType::class,
+//                'label'        => 'List and order your ingredients by preference.',
+//                'allow_add'    => true,
+//                'allow_delete' => true,
+//                'prototype'    => true,
+//                'required'     => false,
+//                'attr'   =>  [
+//                    'class' => 'setIngredient-collection',
+//                ],
+//            ])
+//            ->add('submit', SubmitType::class)
+//            ->getForm()
+//        ;
 
-            ->createNamedBuilder('setIngredient', FormType::class, new IngredientTranslation())
-            ->add('ingredients', CollectionType::class, [
-                'entry_type'   => RecipeFormType::class,
-                'label'        => 'List and order your ingredients by preference.',
-                'allow_add'    => true,
-                'allow_delete' => true,
-                'prototype'    => true,
-                'required'     => false,
-                'attr'   =>  [
-                    'class' => 'setIngredient-collection',
-                ],
-            ])
-            ->add('submit', SubmitType::class)
-            ->getForm()
-        ;
+        //TODO check if clause
+        if($baseForm->isSubmitted() && $baseForm->isValid()){
+            $baseFormData = $baseForm->getData();
+            //dump funktioniert wie sysout nur zeigt es die Informationen direkt auf der Seite an
+            dump($baseFormData);
 
+        }
 
 
         return $this->render('recipe_ingredient/index.html.twig', [
             'controller_name' => 'RecipeIngredientController',
-            'ingredient_form' => $form->createView(),
             'recipe_form' => $baseForm->createView()
         ]);
 
