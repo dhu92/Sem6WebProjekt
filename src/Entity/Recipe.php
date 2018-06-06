@@ -58,4 +58,8 @@ class Recipe
      * @ORM\JoinColumn(name="id", referencedColumnName="recipeID")
      */
     private $translation;
+
+    public function toString() {
+        return strval($this->getId());
+    }
 }
