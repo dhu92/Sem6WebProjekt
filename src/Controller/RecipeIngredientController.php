@@ -2,7 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Recipe;
+use App\Entity\RecipeBase;
+use App\Entity\RecipeForm;
 use App\Entity\RecipeIngredient;
+use App\Entity\RecipeTranslation;
 use App\Form\IngredientType;
 use App\Form\RecipeBaseType;
 use App\Form\RecipeFormType;
@@ -29,53 +33,26 @@ class RecipeIngredientController extends Controller
      */
     public function index(Request $request)
     {
-        $recipeform = $this->createForm(RecipeFormType::class);
-
-        $recipeform->handleRequest($request);
-
-        if($recipeform->isSubmitted() && $recipeform->isValid()){
-
-            $this->addFlash('success', 'Recipe added successfully');
-            return $this->redirectToRoute('recipe_ingredient');
-        }
-
-        return $this->addIngredientController($request, "setIngredient", $recipeform);
-    }
-
-    public function homeAction(Request $request){
-        return
-            $this->addIngredientController($request, 'setIngredient', $this->recipeform);
-
-    }
-
-    protected function addIngredientController(Request $request, $name, $rform)
-    {
-        $baseForm = $this->createForm(RecipeBaseType::class);
-//        $form = $this
-//            ->get('form.factory')
+//        $recipeform = $this->createForm(RecipeFormType::class);
 //
-//            ->createNamedBuilder('setIngredient', FormType::class, new IngredientTranslation())
-//            ->add('ingredients', CollectionType::class, [
-//                'entry_type'   => RecipeFormType::class,
-//                'label'        => 'List and order your ingredients by preference.',
-//                'allow_add'    => true,
-//                'allow_delete' => true,
-//                'prototype'    => true,
-//                'required'     => false,
-//                'attr'   =>  [
-//                    'class' => 'setIngredient-collection',
-//                ],
-//            ])
-//            ->add('submit', SubmitType::class)
-//            ->getForm()
-//        ;
+//        $recipeform->handleRequest($request);
+//
+//        if($recipeform->isSubmitted() && $recipeform->isValid()){
+//
+//            $this->addFlash('success', 'Recipe added successfully');
+//            return $this->redirectToRoute('recipe_ingredient');
+//        }
+//
+//        return $this->addIngredientController($request, "setIngredient", $recipeform);
 
-        //TODO check if clause
+        $recipeBase = new RecipeBase();
+        $baseForm = $this->createForm(RecipeBaseType::class, $recipeBase);
+        $baseForm->handleRequest($request);
+
         if($baseForm->isSubmitted() && $baseForm->isValid()){
             $baseFormData = $baseForm->getData();
-            //dump funktioniert wie sysout nur zeigt es die Informationen direkt auf der Seite an
             dump($baseFormData);
-
+            $this->save($baseFormData);
         }
 
 
@@ -83,19 +60,49 @@ class RecipeIngredientController extends Controller
             'controller_name' => 'RecipeIngredientController',
             'recipe_form' => $baseForm->createView()
         ]);
+    }
 
+    public function homeAction(Request $request){
+        return
+            $this->index($request);
 
     }
 
     private function save($data){
+        dump($data);
+        //save new recipe in Table recipe
+        $recipe = new Recipe();
         $entityManager = $this ->getDoctrine()->getManager();
-        $entityManager->persist($data);
+        $entityManager->persist($recipe);
         $entityManager->flush();
+
+        //save translation
+        $recipeTranslation = new RecipeTranslation();
+        $recipeTranslation->setLanguageID($this->getLanguageByName($data['Language']->getId()));
+        $recipeTranslation->setName($data['Name']);
+        $recipeTranslation->setDescription($data['Description']);
+        $recipeTranslation->setDuration($data['Duration']);
+        $recipeTranslation->setPreperation($data['Preparation']);
+        $recipeTranslation->setRecipeID($recipe);
+
+        $entityManager = $this ->getDoctrine()->getManager();
+        $entityManager->persist($recipeTranslation);
+        $entityManager->flush();
+
+        //save ingrediants
+        $ingredients = $data['ingredient'];
+        foreach($ingredients as $ingredient){
+
+            $entityManager = $this ->getDoctrine()->getManager();
+            $entityManager->persist($ingredient);
+            $entityManager->flush();
+        }
+
     }
 
     public function loadAll() : Collection{
         $allIngredientTranslations = $this->getDoctrine()->getRepository()->findAll();
-            return $allIngredientTranslations;
+        return $allIngredientTranslations;
     }
 
     private function getById($id){
@@ -106,5 +113,15 @@ class RecipeIngredientController extends Controller
             );
         }
         return $data;
+    }
+
+    public function getLanguageByName($name){
+        $data = $this->getDoctrine()->getRepository(Language::class)->findAll();
+        foreach($data as $entity){
+            if(strcmp($entity->getName(), $name) == 0){
+                return $entity;
+            }
+        }
+        return null;
     }
 }

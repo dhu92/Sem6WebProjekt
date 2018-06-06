@@ -4,6 +4,10 @@ namespace App\Form;
 
 use App\Entity\IngredientTranslation;
 use App\Entity\Language;
+use App\Entity\Recipe;
+use App\Entity\RecipeForm;
+use App\Entity\RecipeIngredient;
+use App\Entity\RecipeTranslation;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -27,7 +31,9 @@ class RecipeFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => 'App\Entity\IngredientTranslation',
+            'data_class' => RecipeIngredient::class,
         ]);
     }
+
+
 }

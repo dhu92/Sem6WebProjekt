@@ -2,19 +2,97 @@
 {% block title %}Add Recipe{% endblock %}
 
 {% block body %}
-    <script src="../js/jquery.collection.js"></script>
     <div>
-        {{ form(recipe_form) }}
+        {{ form_start(recipe_form) }}
+        {{ form_row(recipe_form.Name) }}
+        {{ form_row(recipe_form.Language) }}
+        {{ form_row(recipe_form.Description) }}
+        {{ form_row(recipe_form.Duration) }}
+        {{ form_row(recipe_form.Preparation) }}
 
-        {% form_theme recipe_form
-            'jquery.collection.html.twig'
-            'buttonTemplate.html.twig'
-        %}
-        {{ form(recipe_form) }}
+        <h3>Ingredients</h3>
+        <ul class = "ingredient" data-prototype="{{ form_widget(recipe_form.ingredient.vars.prototype)|e('html_attr') }}">
+            {% for ingredient in recipe_form.ingredient %}
+                <li>{{ form_row(ingredient.ingredients) }}</li>
+                <li>{{ form_row(ingredient.Amount) }}</li>
+                <li>{{ form_row(ingredient.Measurement) }}</li>
+            {% endfor %}
+        </ul>
+
+        {{ form_row(recipe_form.submit) }}
 
     </div>
 
-    <script type="text/javascript">
-        $('.setIngredient-collection').collection();
+    {#<script src="{{ asset('../vendor/components/jquery/jquery.min.js') }}"></script>#}
+    <script>
+        var $collectionHolder = $('ul.ingredient');
+
+        var $addIngredientLink = $('<a href="#" class="add_tag_link">Add a tag</a>');
+        var $newLinkLi = $('<li></li>').append($addIngredientLink);
+
+        jQuery(document).ready(function (){
+            // Get the ul that holds the collection of tags
+            $collectionHolder = $('ul.ingredient');
+
+
+            // add the "add a tag" anchor and li to the tags ul
+            $collectionHolder.append($newLinkLi);
+
+            // count the current form inputs we have (e.g. 2), use that as the new
+            // index when inserting a new item (e.g. 2)
+            $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+            $addIngredientLink.on('click', function(e) {
+                // prevent the link from creating a "#" on the URL
+                e.preventDefault();
+
+                // add a new tag form (see next code block)
+                addIngredientForm($collectionHolder, $newLinkLi);
+            });
+        });
+
+        function addIngredientForm() {
+            // Get the data-prototype explained earlier
+            var prototype = $collectionHolder.data('prototype');
+
+            // get the new index
+            var index = $collectionHolder.data('index');
+
+            var newForm = prototype;
+            // You need this only if you didn't set 'label' => false in your tags field in TaskType
+            // Replace '__name__label__' in the prototype's HTML to
+            // instead be a number based on how many items we have
+            newForm = newForm.replace(/__name__label__/g, index);
+
+            // Replace '__name__' in the prototype's HTML to
+            // instead be a number based on how many items we have
+            newForm = newForm.replace(/__name__/g, index);
+
+            // increase the index with one for the next item
+            $collectionHolder.data('index', index + 1);
+
+            // Display the form in the page in an li, before the "Add a tag" link li
+            var $newFormLi = $('<li></li>').append(newForm);
+            $newLinkLi.before($newFormLi);
+
+            addIngredientFormDeleteLink($newFormLi);
+
+        }
+
+        function addIngredientFormDeleteLink($tagFormLi) {
+            var $removeFormA = $('<li><a href="#">Delete this tag</a></li>');
+            $tagFormLi.append($removeFormA);
+
+            $removeFormA.on('click', function (e) {
+                // prevent the link from creating a "#" on the URL
+                e.preventDefault();
+
+                // remove the li for the tag form
+                $tagFormLi.remove();
+            });
+        }
+
     </script>
+
+
 {% endblock %}
