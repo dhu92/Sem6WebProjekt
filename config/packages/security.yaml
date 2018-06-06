@@ -13,7 +13,6 @@ security:
                 # manager_name: customer
 
     firewalls:
-
         main:
 #TODO: add ^\user as pattern
             pattern:    ^/

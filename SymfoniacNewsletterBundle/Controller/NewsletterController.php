@@ -6,8 +6,7 @@
  * Time: 10:31
  */
 
-namespace App\SymfoniacNewsletterBundle\Controller;
-
+namespace SymfoniacNewsletterBundle\Controller;
 
 use App\Entity\Recipe;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -61,14 +60,13 @@ class NewsletterController extends Controller
     /**
      * @param mixed $newsletterFooter
      */
-    public function setNewsletterFooter($newsletterFooter): void
-    {
+    public function setNewsletterFooter($newsletterFooter): void {
         $this->newsletterFooter = $newsletterFooter;
     }
 
     private function createContent() {
         $recipe = $this->getLatestRecipe();
-        $this->setNewsletterContent($recipe->getTranslation());
+        $this->setNewsletterContent("Hello World!");//$recipe->getTranslation());
     }
 
     private function getLatestRecipe() {
@@ -78,10 +76,18 @@ class NewsletterController extends Controller
 
     private function createHeader() {
         $user = $this->getUser();
-        $this->setNewsletterHeader("Hello ".$user."!");
+        $this->setNewsletterHeader("Hello ".$user->getUsername()."!");
     }
 
     private function createFooter() {
         $this->setNewsletterFooter("We wish you a happy Day!");
+    }
+
+    public function returnLastRecipe () {
+        $this->createHeader();
+        $this->createContent();
+        $this->createFooter();
+        $newsletterEntry = $this->getNewsletterHeader().$this->getNewsletterContent().$this->getNewsletterFooter();
+        return $newsletterEntry;
     }
 }
