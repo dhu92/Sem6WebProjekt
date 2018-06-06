@@ -13,10 +13,11 @@ use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
 class NewsletterControllerTest extends TestCase
 {
+    public function testSetRecipe() {
 
+    }
 
-    public function testGetRecipe()
-    {
+    public function testGetRecipe() {
 
     }
 
