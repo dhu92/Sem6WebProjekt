@@ -6,7 +6,7 @@
  * Time: 09:58
  */
 
-namespace App\SymfoniacNewsletterBundle;
+namespace SymfoniacNewsletterBundle;
 
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;

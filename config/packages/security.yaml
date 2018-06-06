@@ -13,7 +13,6 @@ security:
                 # manager_name: customer
 
     firewalls:
-
         main:
 #TODO: add ^\user as pattern
             pattern:    ^/
@@ -38,7 +37,7 @@ security:
            # require ROLE_ADMIN for /admin*
            - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
            - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-           - { path: ^/, roles: ROLE_USER } # fix to /* when done
+            #- { path: ^/, roles: ROLE_USER } # fix to /* when done
             # activate different ways to authenticate
 
             # http_basic: true
