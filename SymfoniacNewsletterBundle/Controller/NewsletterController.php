@@ -16,6 +16,8 @@ use App\Entity\Recipe;
 use App\Entity\RecipeIngredient;
 use App\Entity\RecipeTranslation;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class NewsletterController extends Controller
 {
@@ -139,7 +141,7 @@ class NewsletterController extends Controller
         $this->newsletterFooter = $newsletterFooter;
     }
 
-    private function setLatestRecipe() {
+    private function getRecipes() {
         $recipe = $this->getDoctrine()
             ->getRepository(Recipe::class)
             ->findBy(array(), array('id'=>'DESC'));
@@ -150,15 +152,19 @@ class NewsletterController extends Controller
             );
         }
 
+        return array_slice($recipe, 0, 3);
+    }
+
+    private function setLatestRecipe($offset) {
+        $recipe = $this->getRecipes();
+
         $recipeTranslation = $this->getDoctrine()
             ->getRepository(RecipeTranslation::class)
-            ->find($recipe[0]->getId());
+            ->find($recipe[$offset]->getId());
 
         $recipeIngredients = $this->getDoctrine()
             ->getRepository(RecipeIngredient::class)
-            ->findByRecipeID($recipe[0]->getId());
-
-        dump($recipeIngredients);
+            ->findByRecipeID($recipe[$offset]->getId());
 
         $ingredient = array();
 
@@ -183,25 +189,51 @@ class NewsletterController extends Controller
         $this->setNewsletterFooter("We wish you a happy Day!");
     }
 
-    public function returnLastRecipe () {
-        $this->setLatestRecipe();
+    public function returnRecipe ($ingredientString, $offset) {
+        try {
+            $this->setLatestRecipe($offset);
 
-        $ingredientString = "";
+            for ($x = 0; $x < sizeof($this->recipeIngredients,1); $x++) {
+                $ingredientString = $ingredientString.$this->ingredients[$x]->getName()
+                    ."\t\t".$this->recipeIngredients[$x]->getAmount()
+                    ."\t".$this->recipeIngredients[$x]->getMeasurement()
+                    ."\r\n";
+            }
 
-        for ($x = 0; $x < sizeof($this->recipeIngredients,1); $x++) {
-            $ingredientString = $ingredientString.$this->ingredients[$x]->getName()
-                ."\t\t".$this->recipeIngredients[$x]->getAmount()
-                ."\t".$this->recipeIngredients[$x]->getMeasurement()
-                ."\r\n";
-        }
 
-        return $this->recipeTranslation->getName()
+            return $this->recipeTranslation->getName()
                 ."\r\n".$ingredientString
                 ."\r\n".$this->recipeTranslation->getDescription()
                 ."\r\n".$this->recipeTranslation->getPreperation()
                 ."\r\n".$this->recipeTranslation->getDuration();
 
 
+        } catch (Exception $exception) {
+            if ($offset == 0) {
+                return "No additional Recipes Found";
+            } else {
+                return $ingredientString."\r\nNo additional Recipes Found";
+            }
+        }
+    }
+
+    private function returnLastRecipes($a) {
+        $recipesText = "";
+        $amount = 0;
+
+        if ( sizeof($this->getRecipes()) >=3) {
+            $amount = $a;
+        } else {
+            $amount = sizeof($this->getRecipes());
+        }
+
+        for ($x = 0; $x < $amount; $x++) {
+            $text = $this->returnRecipe($recipesText, $x);
+            $recipesText = $recipesText.$text;
+            $recipesText = $recipesText."\r\n-------------------------------------------------------\r\n";
+        }
+
+        return $recipesText;
     }
 
     public function recentRecipe()
@@ -215,8 +247,23 @@ class NewsletterController extends Controller
 
         return $this->render('recipe/recent_list.html.twig',
             array('newsletterHeader' => $this->newsletterHeader,
-                    'newsletterContent' => $this->returnLastRecipe(),
+                    'newsletterContent' => $this->returnLastRecipes(1),
                     'newsletterFooter' => $this->newsletterFooter)
+        );
+    }
+
+    public function recentRecipes() {
+        // make a database call or other logic
+        // to get the "$max" most recent articles
+
+        $this->createHeader();
+        $this->createFooter();
+
+
+        return $this->render('recipe/recent_list.html.twig',
+            array('newsletterHeader' => $this->newsletterHeader,
+                'newsletterContent' => $this->returnLastRecipes(3),
+                'newsletterFooter' => $this->newsletterFooter)
         );
     }
 }
