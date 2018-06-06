@@ -145,14 +145,11 @@ class NewsletterController extends Controller
         $recipe = $this->getDoctrine()
             ->getRepository(Recipe::class)
             ->findBy(array(), array('id'=>'DESC'));
-
         if (!$recipe) {
-            throw $this->createNotFoundException(
-                'No recipe found'
-            );
+            return 0;
+        } else {
+            return array_slice($recipe, 0, 3);
         }
-
-        return array_slice($recipe, 0, 3);
     }
 
     private function setLatestRecipe($offset) {
@@ -220,17 +217,21 @@ class NewsletterController extends Controller
     private function returnLastRecipes($a) {
         $recipesText = "";
         $amount = 0;
-
-        if ( sizeof($this->getRecipes()) >=3) {
-            $amount = $a;
-        } else {
-            $amount = sizeof($this->getRecipes());
+        if ($this->getRecipes() == 0) {
+            $recipesText = "No Recipies found!";
         }
+        else {
+            if (sizeof($this->getRecipes()) >= 3) {
+                $amount = $a;
+            } else {
+                $amount = sizeof($this->getRecipes());
+            }
 
-        for ($x = 0; $x < $amount; $x++) {
-            $text = $this->returnRecipe($recipesText, $x);
-            $recipesText = $recipesText.$text;
-            $recipesText = $recipesText."\r\n-------------------------------------------------------\r\n";
+            for ($x = 0; $x < $amount; $x++) {
+                $text = $this->returnRecipe($recipesText, $x);
+                $recipesText = $recipesText . $text;
+                $recipesText = $recipesText . "\r\n-------------------------------------------------------\r\n";
+            }
         }
 
         return $recipesText;
