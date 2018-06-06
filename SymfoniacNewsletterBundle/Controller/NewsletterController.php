@@ -178,7 +178,12 @@ class NewsletterController extends Controller
     }
 
     private function createHeader() {
-        $user = $this->getUser();
+        if (!$this->getUser()) {
+            $user = "Gast";
+        }
+        else {
+            $user = $this->getUser();
+        }
         $this->setNewsletterHeader("Hello ".$user->getUsername()."!");
     }
 
