@@ -49,11 +49,17 @@ class RecipeIngredientController extends Controller
         $baseForm = $this->createForm(RecipeBaseType::class, $recipeBase);
         $baseForm->handleRequest($request);
 
-        if($baseForm->isSubmitted() && $baseForm->isValid()){
+        if($baseForm->isSubmitted()){
             $baseFormData = $baseForm->getData();
             dump($baseFormData);
-            $this->save($baseFormData);
         }
+
+
+        /*if($baseForm->isSubmitted() && $baseForm->isValid()){
+            $baseFormData = $baseForm->getData();
+            dump($baseFormData);
+            //$this->save($baseFormData);
+        }*/
 
 
         return $this->render('recipe_ingredient/index.html.twig', [

@@ -16,6 +16,25 @@ use Doctrine\ORM\Mapping as ORM;
 
 class RecipeIngredient
 {
+
+    public $ingredients;
+
+    /**
+     * @return mixed
+     */
+    public function getIngredients()
+    {
+        return $this->ingredients;
+    }
+
+    /**
+     * @param mixed $ingredients
+     */
+    public function setIngredients($ingredients): void
+    {
+        $this->ingredients = $ingredients;
+    }
+
     /**
      * @return mixed
      */
