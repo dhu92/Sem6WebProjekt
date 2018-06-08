@@ -24,14 +24,9 @@ class IngredientController extends Controller
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-
-            //anstelle von recipeData die Entity verwenden um Daten in die DB zu schreiben
-            //hier könnte z.b. mit recipeData[name] auf den Namen zugegriffen werden
             $formData = $form->getData();
             dump($formData);
             $this->save($formData);
-            //dump funktioniert wie sysout nur zeigt es die Informationen direkt auf der Seite an
-
         }
 
         $response = $this->render('ingredient/index.html.twig', [

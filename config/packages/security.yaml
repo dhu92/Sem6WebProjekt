@@ -1,7 +1,6 @@
 security:
     encoders:
         App\Entity\User: plaintext
-#            algorithm: plaintext
 
     providers:
         our_db_provider:
