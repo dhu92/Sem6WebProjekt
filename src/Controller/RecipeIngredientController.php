@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Language;
 use App\Entity\Recipe;
 use App\Entity\RecipeBase;
 use App\Entity\RecipeForm;
@@ -54,7 +55,9 @@ class RecipeIngredientController extends Controller
 
         if($baseForm->isSubmitted()){
             $baseFormData = $baseForm->getData();
+            $this->addFlash('success', 'Recipe added successfully');
             $this->save($baseFormData);
+            $this->redirectToRoute('recipe_ingredient');
         }
 
 
@@ -79,6 +82,7 @@ class RecipeIngredientController extends Controller
 
     private function save($data){
         //save new recipe in Table recipe
+        dump($data);
         $recipe = new Recipe();
         $recipe->setOwner($this->getUser());
         $entityManager = $this ->getDoctrine()->getManager();
@@ -103,12 +107,13 @@ class RecipeIngredientController extends Controller
         //save ingrediants
         $elements = $data->getIngredient();
         foreach($elements as  $recipeIngredient){
-            $recipeIngredient->setIngredientID($recipeIngredient->getIngredientID());
-            $recipeIngredient->setRecipeID($recipe);
-
-            $entityManager = $this ->getDoctrine()->getManager();
-            $entityManager->persist($recipeIngredient);
-            $entityManager->flush();
+            foreach($recipeIngredient as $ingredient){
+                $recipeIngredient->setIngredientID($ingredient->getIngredientID());
+                $recipeIngredient->setRecipeID($recipe);
+                $entityManager = $this ->getDoctrine()->getManager();
+                $entityManager->persist($recipeIngredient);
+                $entityManager->flush();
+            }
         }
 
         //save translation
@@ -126,7 +131,7 @@ class RecipeIngredientController extends Controller
     }
 
     public function loadAll() : Collection{
-        $allIngredientTranslations = $this->getDoctrine()->getRepository()->findAll();
+        $allIngredientTranslations = $this->getDoctrine()->getRepository(IngredientTranslation::class)->findAll();
         return $allIngredientTranslations;
     }
 

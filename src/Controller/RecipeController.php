@@ -4,6 +4,8 @@ namespace App\Controller;
 
 
 
+use App\Entity\Language;
+use App\Entity\Recipe;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -35,7 +37,7 @@ class RecipeController extends Controller
     }
 
     public function loadAll(){
-        $allLanguages = $this->getDoctrine()->getRepository()->findAll();
+        $allLanguages = $this->getDoctrine()->getRepository(Language::class)->findAll();
     }
 
     private function getById($id){
