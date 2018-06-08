@@ -165,4 +165,11 @@ class RecipeTranslation {
      * @ORM\Column(type="integer")
      */
     private $duration;
+
+    public function belongsTo($id){
+        if($this->getId() == $id){
+            return true;
+        }
+        return false;
+    }
 }

@@ -9,6 +9,7 @@
 namespace App\Controller;
 
 
+use App\Entity\Language;
 use App\Entity\Recipe;
 use App\Entity\RecipeTranslation;
 use App\Entity\User;
@@ -52,7 +53,8 @@ class RestController extends FOSRestController{
         $allrecipesTranslations = $this->getDoctrine()->getRepository(RecipeTranslation::class)->findAll();
         $result = array();
         foreach($allrecipesTranslations as $translation){
-            if($translation->getRecipeID() == $recipe->getId()){
+//            if($translation->getRecipeID() == $recipe->getId()){
+             if($translation->belongsTo($recipe->getId())){
                 array_push($result, $translation);
             }
         }
@@ -118,11 +120,11 @@ class RestController extends FOSRestController{
 
     /**
      * Delete a recipe
-     * @Rest\Delete("/api/recipe/delete/{recipeId]")
+     * @Rest\Delete("/api/recipe/delete/{recipeId}")
      * @param $recipeId
      * @return View
      */
-    public function deleteRecipe($recipeId){
+    public function deleteRecipe(int $recipeId){
         $recipe = $this->getDoctrine()->getRepository(Recipe::class)->find($recipeId);
         $translations = $this->findTranslationsForRecipe($recipe);
         if($recipe){
