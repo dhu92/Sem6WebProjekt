@@ -160,8 +160,6 @@ class NewsletterController extends Controller
             ->getRepository(RecipeTranslation::class)
             ->find($recipe[$offset]->getId());
 
-        dump($recipeTranslation);
-
         $recipeIngredients = $this->getDoctrine()
             ->getRepository(RecipeIngredient::class)
             ->findByRecipeID($recipe[$offset]->getId());

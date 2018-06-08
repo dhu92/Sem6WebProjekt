@@ -47,14 +47,14 @@ class IngredientController extends Controller
         $entityManager->flush();
 
         $german = new IngredientTranslation();
-        $german->setLanguage($this->getLanguageByName("german"));
+        $german->setLanguage($this->getLanguageByName("German"));
         $german->setName($data['name_in_german']);
         $german->setIngredientID($ingredient);
 
         dump($german);
 
         $english = new IngredientTranslation();
-        $english->setLanguage($this->getLanguageByName("english"));
+        $english->setLanguage($this->getLanguageByName("English"));
         $english->setName($data['name_in_english']);
         $english->setIngredientID($ingredient);
 
