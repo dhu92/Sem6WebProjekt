@@ -12,6 +12,7 @@ namespace App\Controller;
 use App\Entity\Recipe;
 use App\Entity\RecipeTranslation;
 use App\Entity\User;
+use App\Exception\RecipeNotFoundException;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\View\View;
@@ -38,27 +39,41 @@ class RestController extends FOSRestController{
         $allrecipeTranslations = $this->getDoctrine()->getRepository(RecipeTranslation::class)->findAll();
         $result = array();
         foreach($allrecipes as $recipe){
-            foreach($allrecipeTranslations as $translation){
-                if($translation->getRecipeID() == $recipe->getId()){
-                    array_push($result, $translation);
-                }
+//            foreach($allrecipeTranslations as $translation){
+//                if($translation->getRecipeID() == $recipe->getId()){
+//                    array_push($result, $translation);
+//                }
+                array_push($result, $this->findTranslationsForRecipe($recipe));
             }
-        }
         return View::create($result, Response::HTTP_OK);
     }
 
+    private function findTranslationsForRecipe($recipe){
+        $allrecipeTranslations = $this->getDoctrine()->getRepository(RecipeTranslation::class)->findAll();
+        $result = array();
+        foreach($allrecipeTranslations as $translation){
+            if($translation->getRecipeID() == $recipe->getId()){
+                array_push($result, $translation);
+            }
+        }
+        return $result;
+    }
     /**
      * @Rest\Get("/api/recipe/{recipeId}")
      * @param $recipeId
+     * @return View
      */
     public function getRecipeById($recipeId){
         $recipe = $this->getDoctrine()->getRepository(Recipe::class)->find($recipeId);
+//        if(!$recipe){
+//            throw new RecipeNotFoundException();
+//        }
         return View::create($recipe, Response::HTTP_OK);
     }
 
     /**
      * Create a recipe
-     * @Rest\Post("/api/createRecipe")
+     * @Rest\Post("/api/createrecipe")
      */
     public function createRecipe(){
         dump("YAAAAAAAAAAAAAAAAAAAY");
@@ -67,23 +82,31 @@ class RestController extends FOSRestController{
 
     /**
      * Update a recipe
-     * @Rest\Put("/api/updateRecipe/{recipeId}")
+     * @Rest\Put("/api/updaterecipe/{recipeId}")
      */
     public function updateRecipe($recipeId){
         $recipe = $this->getDoctrine()->getRepository(Recipe::class)->find($recipeId);
         //Update und so;
-        $this->getDoctrine()->getManager()->persist($recipe);
-        $this->getDoctrine()->getManager()->flush();
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($recipe);
+        $entityManager->flush();
     }
+
     /**
      * Delete a recipe
      * @Rest\Delete("/api/deleterecipe/{recipeId]")
      * @param $recipeId
+     * @return View
      */
     public function deleteRecipe($recipeId){
         $recipe = $this->getDoctrine()->getRepository(Recipe::class)->find($recipeId);
+        $translations = $this->findTranslationsForRecipe($recipe);
         if($recipe){
             $this->getDoctrine()->getManager()->remove($recipe);
         }
+        foreach($translations as $translation){
+            $this->getDoctrine()->getManager()->remove($translation);
+        }
+        return View::create("", Response::HTTP_OK);
     }
 }
