@@ -141,7 +141,7 @@ class RecipeTranslation {
     private $languageID;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Recipe")
+     * @ORM\OneToOne(targetEntity="Recipe", mappedBy="Recipe")
      * @ORM\JoinColumn(name="recipeID", referencedColumnName="id")
      */
     private $recipeID;
