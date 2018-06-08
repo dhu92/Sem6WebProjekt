@@ -80,6 +80,7 @@ class RecipeIngredientController extends Controller
     private function save($data){
         //save new recipe in Table recipe
         $recipe = new Recipe();
+        $recipe->setOwner($this->getUser());
         $entityManager = $this ->getDoctrine()->getManager();
         $entityManager->persist($recipe);
         $entityManager->flush();

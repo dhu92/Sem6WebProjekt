@@ -31,6 +31,19 @@ class Recipe
         $this->id = $id;
     }
 
+    /**
+     * @param mixed $owner
+     */
+    public function setOwner($owner){
+        $this->owner = $owner;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOwner(){
+        return $this->owner;
+    }
 //    /**
 //     * @return mixed
 //     */
@@ -54,6 +67,12 @@ class Recipe
      * @ORM\Id
      */
     protected $id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="owner", referencedColumnName="id")
+     */
+    private $owner;
 
 //    /**
 //     * @ORM\OneToOne(targetEntity="RecipeTranslation", mappedBy="RecipeTranslation")

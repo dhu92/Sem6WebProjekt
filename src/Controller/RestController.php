@@ -24,29 +24,18 @@ use Symfony\Component\HttpFoundation\Response;
 class RestController extends FOSRestController{
 
     /**
-     * Send back a user as test
      * @Rest\Get("/api/recipe/getall")
      */
     public function getRecipes(): View
     {
-//        $user1 = new User();
-//        $user1->setUsername("Mr. FBI Man");
-//        $user1->setPassword("Superstrong password");
-//        $user2 = new User();
-//        $user2->setUsername("Mr. NSA Man");
-//        $user2->setPassword("Even strong password");
-//        $users = array($user1, $user2);
         $allrecipes = $this->getDoctrine()->getRepository(Recipe::class)->findAll();
-        $allrecipeTranslations = $this->getDoctrine()->getRepository(RecipeTranslation::class)->findAll();
-        $result = array();
-        foreach($allrecipes as $recipe){
-//            foreach($allrecipeTranslations as $translation){
-//                if($translation->getRecipeID() == $recipe->getId()){
-//                    array_push($result, $translation);
-//                }
-                array_push($result, $this->findTranslationsForRecipe($recipe));
-            }
-        return View::create($result, Response::HTTP_OK);
+//        $result = array();
+//        foreach($allrecipes as $recipe){
+//                array_push($result, $this->findTranslationsForRecipe($recipe));
+//                $alltranslations = $this->findTranslationsForRecipe($recipe);
+//                $result[$recipe->getId()] = $alltranslations;
+//            }
+        return View::create($allrecipes, Response::HTTP_OK);
     }
 
     private function findTranslationsForRecipe($recipe){
@@ -69,6 +58,7 @@ class RestController extends FOSRestController{
      */
     public function getRecipeById(int $recipeId){
         $recipe = $this->getDoctrine()->getRepository(Recipe::class)->find($recipeId);
+//        $translations = $this->findTranslationsForRecipe($recipe);
         if(!$recipe){
             throw new RecipeNotFoundException();
         }
@@ -93,6 +83,7 @@ class RestController extends FOSRestController{
             $translation->setRecipeID($this->getDoctrine()->getRepository(Recipe::class)->find($request->get('recipeID')));
         } else {
             $newRecipe = new Recipe();
+            $newRecipe->setOwner($this->getDoctrine()->getRepository(User::class)->find($request->get("userID")));
             $entityManager->persist($newRecipe);
             $entityManager->flush();
             $translation->setRecipeID($newRecipe);
@@ -124,15 +115,18 @@ class RestController extends FOSRestController{
      * @param $recipeId
      * @return View
      */
-    public function deleteRecipe(int $recipeId){
+    public function deleteRecipe($recipeId){
         $recipe = $this->getDoctrine()->getRepository(Recipe::class)->find($recipeId);
         $translations = $this->findTranslationsForRecipe($recipe);
+        $message = "";
         if($recipe){
             $this->getDoctrine()->getManager()->remove($recipe);
+            $message = "Recipe deleted";
         }
         foreach($translations as $translation){
             $this->getDoctrine()->getManager()->remove($translation);
+            $message = $message . " and all related translations too";
         }
-        return View::create("Recipe deleted", Response::HTTP_OK);
+        return View::create($message, Response::HTTP_OK);
     }
 }
