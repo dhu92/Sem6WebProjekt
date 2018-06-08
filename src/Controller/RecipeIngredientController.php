@@ -51,7 +51,8 @@ class RecipeIngredientController extends Controller
 
         if($baseForm->isSubmitted()){
             $baseFormData = $baseForm->getData();
-            dump($baseFormData);
+//            dump($baseFormData);
+            $this->save($baseFormData);
         }
 
 
@@ -76,33 +77,38 @@ class RecipeIngredientController extends Controller
 
     private function save($data){
         dump($data);
+
         //save new recipe in Table recipe
         $recipe = new Recipe();
         $entityManager = $this ->getDoctrine()->getManager();
         $entityManager->persist($recipe);
         $entityManager->flush();
 
-        //save translation
-        $recipeTranslation = new RecipeTranslation();
-        $recipeTranslation->setLanguageID($this->getLanguageByName($data['Language']->getId()));
-        $recipeTranslation->setName($data['Name']);
-        $recipeTranslation->setDescription($data['Description']);
-        $recipeTranslation->setDuration($data['Duration']);
-        $recipeTranslation->setPreperation($data['Preparation']);
-        $recipeTranslation->setRecipeID($recipe);
-
-        $entityManager = $this ->getDoctrine()->getManager();
-        $entityManager->persist($recipeTranslation);
-        $entityManager->flush();
-
         //save ingrediants
-        $ingredients = $data['ingredient'];
-        foreach($ingredients as $ingredient){
+        $elements = $data->getIngredient();
+        foreach($elements as  $recipeIngredient){
+            dump($recipeIngredient);
+            $recipeIngredient->setIngredientID($recipeIngredient->getIngredientID());
+            $recipeIngredient->setRecipeID($recipe);
+
 
             $entityManager = $this ->getDoctrine()->getManager();
-            $entityManager->persist($ingredient);
+            $entityManager->persist($recipeIngredient);
             $entityManager->flush();
         }
+
+        //save translation
+        $recipeTranslation = new RecipeTranslation();
+        $recipeTranslation->setLanguageID($data->getLanguage());
+        $recipeTranslation->setName($data->getName());
+        $recipeTranslation->setDescription($data->getDescription());
+        $recipeTranslation->setDuration($data->getDuration());
+        $recipeTranslation->setPreperation($data->getPreparation());
+        $recipeTranslation->setRecipeID($recipe);
+        dump($recipeTranslation);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($recipeTranslation);
+        $entityManager->flush();
 
     }
 

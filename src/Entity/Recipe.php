@@ -31,35 +31,38 @@ class Recipe
         $this->id = $id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getTranslation()
-    {
-        return $this->translation;
-    }
+//    /**
+//     * @return mixed
+//     */
+//    public function getTranslation()
+//    {
+//        return $this->translation;
+//    }
+//
+//    /**
+//     * @param mixed $translation
+//     */
+//    public function setTranslation($translation): void
+//    {
+//        $this->translation = $translation;
+//    }
 
     /**
-     * @param mixed $translation
-     */
-    public function setTranslation($translation): void
-    {
-        $this->translation = $translation;
-    }
-    /**
+     *
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
      * @ORM\Id
      */
-    private $id;
+    protected $id;
 
-    /**
-     * @ORM\OneToMany(targetEntity="RecipeTranslation", mappedBy="RecipeTranslation")
-     * @ORM\JoinColumn(name="id", referencedColumnName="recipeID")
-     */
-    private $translation;
+//    /**
+//     * @ORM\OneToOne(targetEntity="RecipeTranslation", mappedBy="RecipeTranslation")
+//     * @ORM\JoinColumn(name="id", referencedColumnName="recipeID")
+//     */
+//    private $translation;
 
     public function toString() {
         return strval($this->getId());
     }
+
 }
