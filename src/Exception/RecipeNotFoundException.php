@@ -8,9 +8,9 @@
 
 namespace App\Exception;
 
-
 class RecipeNotFoundException extends \Exception {
 
     public $message = "The recipe you are looking for does not exist!";
+    public $code = 9000;
 
 }
