@@ -26,7 +26,7 @@ class NewsletterController extends Controller
     private $recipe;
     private $recipeTranslation;
     private $recipeIngredients;
-    private $ingredients;
+    private $ingredients = array();
 
     private $newsletterContent;
     private $newsletterFooter;
@@ -149,7 +149,7 @@ class NewsletterController extends Controller
         if (!$recipe) {
             return 0;
         } else {
-            return array_slice($recipe, 1, 1);
+            return array_slice($recipe, 0, 3);
         }
     }
 
@@ -164,12 +164,10 @@ class NewsletterController extends Controller
             ->getRepository(RecipeIngredient::class)
             ->findByRecipeID($recipe[$offset]->getId());
 
-        dump($recipeIngredients);
-
         for ($x = 0; $x < sizeof($recipeIngredients); $x++) {
             $ingredient[$x] = $this->getDoctrine()
-                ->getRepository((IngredientTranslation::class))
-                ->findByIngredientID($recipeIngredients[$x]->getId());
+                ->getRepository(IngredientTranslation::class)
+                ->findByIngredientID($recipeIngredients[$x]->getRecipeID());
         }
 
         dump($ingredient);
@@ -198,20 +196,11 @@ class NewsletterController extends Controller
         try {
             $this->setLatestRecipe($offset);
 
-            if (!is_array($this->ingredients)) {
-                for ($x = 0; $x < sizeof($this->recipeIngredients,1); $x++) {
-                    $ingredientString = $ingredientString.$this->ingredients[$x]->getName()
-                        ."\t\t".$this->recipeIngredients[$x]->getAmount()
-                        ."\t".$this->recipeIngredients[$x]->getMeasurement()
-                        ."\r\n";
-                }
-            } else {
-                for ($x = 0; $x < sizeof($this->recipeIngredients, 1); $x++) {
-                    $ingredientString = $ingredientString . $this->ingredients[$x][0]->getName()
-                        . "\t\t" . $this->recipeIngredients[$x]->getAmount()
-                        . "\t" . $this->recipeIngredients[$x]->getMeasurement()
-                        . "\r\n";
-                }
+            for ($x = 0; $x < sizeof($this->recipeIngredients, 1); $x++) {
+                $ingredientString = $ingredientString.$this->ingredients[$x][0]->getName()
+                    . "\t\t" . $this->recipeIngredients[$x]->getAmount()
+                    . "\t" . $this->recipeIngredients[$x]->getMeasurement()
+                    . "\r\n";
             }
 
             return $this->recipeTranslation->getName()
@@ -244,9 +233,7 @@ class NewsletterController extends Controller
             }
 
             for ($x = 0; $x < $amount; $x++) {
-                $text = $this->returnRecipe($recipesText, $x);
-                $recipesText = $recipesText . $text;
-                $recipesText = $recipesText . "\r\n-------------------------------------------------------\r\n";
+                $recipesText = $this->returnRecipe($recipesText, $x);
             }
         }
 
@@ -279,7 +266,7 @@ class NewsletterController extends Controller
 
         return $this->render('recipe/recent_list.html.twig',
             array('newsletterHeader' => $this->newsletterHeader,
-                'newsletterContent' => $this->returnLastRecipes(1),
+                'newsletterContent' => $this->returnLastRecipes(3),
                 'newsletterFooter' => $this->newsletterFooter)
         );
     }
