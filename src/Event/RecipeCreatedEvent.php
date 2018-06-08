@@ -18,9 +18,9 @@ class RecipeCreatedEvent extends Event
 
     protected $recipe;
 
-    public function __construct(Recipe $recipe)
+    public function __construct(Recipe $recipeTo)
     {
-        $this->$this->recipe = $recipe;
+        $this->recipe = (string)$recipeTo->getId();
     }
 
     /**

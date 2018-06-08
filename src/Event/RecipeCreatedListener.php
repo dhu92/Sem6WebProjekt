@@ -29,13 +29,13 @@ class RecipeCreatedListener
         //used gmail
         //PW. loladin2018!
         //e-Mail symfoniac2018@gmail.com
-
+        dump($recipeCreatedEvent);
         $recipe =  $recipeCreatedEvent ->getRecipe();
         $id = $recipe -> getId();
 
         $message = (new \Swift_Message('New Recipe Added'))
             ->setFrom('symfoniac2018@gmail.com')
-            ->setTo('symfoniac2018@gmail.com')
+            ->setTo('christoph.bauer@students.fhv.at')
             ->setBody(
                 $this -> twig -> render(
                     'email\recipeadded.html.twig',

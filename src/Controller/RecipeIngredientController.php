@@ -7,11 +7,14 @@ use App\Entity\RecipeBase;
 use App\Entity\RecipeForm;
 use App\Entity\RecipeIngredient;
 use App\Entity\RecipeTranslation;
+use App\Event\RecipeCreatedEvent;
+use App\Event\RecipeCreatedListener;
 use App\Form\IngredientType;
 use App\Form\RecipeBaseType;
 use App\Form\RecipeFormType;
 use App\Form\RecipeIngredientType;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -51,7 +54,6 @@ class RecipeIngredientController extends Controller
 
         if($baseForm->isSubmitted()){
             $baseFormData = $baseForm->getData();
-//            dump($baseFormData);
             $this->save($baseFormData);
         }
 
@@ -69,28 +71,39 @@ class RecipeIngredientController extends Controller
         ]);
     }
 
-    public function homeAction(Request $request){
-        return
-            $this->index($request);
-
-    }
+//    public function homeAction(Request $request){
+//        return
+//            $this->index($request);
+//
+//    }
 
     private function save($data){
-        dump($data);
-
         //save new recipe in Table recipe
         $recipe = new Recipe();
         $entityManager = $this ->getDoctrine()->getManager();
         $entityManager->persist($recipe);
         $entityManager->flush();
 
+        $transport = (new \Swift_SmtpTransport('smtp.gmail.com', 465))
+            ->setUsername('symfoniac2018@gmail.com')
+            ->setPassword('loladin2018!')
+        ;
+        $mailer = new \Swift_Mailer($transport);
+        $dispatcher = new EventDispatcher();
+
+        $loader = new \Twig_Loader_Filesystem('../templates');
+        $twig = new \Twig_Environment($loader, array(
+            'cache' => '/path/to/compilation_cache',
+        ));
+        $listener = new RecipeCreatedListener($mailer, $twig);
+        $dispatcher->addListener('recipe.created', array($listener, 'onRecipeCreated'));
+        $event = new RecipeCreatedEvent($recipe);
+        $dispatcher->dispatch(RecipeCreatedEvent::class, $event);
         //save ingrediants
         $elements = $data->getIngredient();
         foreach($elements as  $recipeIngredient){
-            dump($recipeIngredient);
             $recipeIngredient->setIngredientID($recipeIngredient->getIngredientID());
             $recipeIngredient->setRecipeID($recipe);
-
 
             $entityManager = $this ->getDoctrine()->getManager();
             $entityManager->persist($recipeIngredient);
@@ -105,7 +118,6 @@ class RecipeIngredientController extends Controller
         $recipeTranslation->setDuration($data->getDuration());
         $recipeTranslation->setPreperation($data->getPreparation());
         $recipeTranslation->setRecipeID($recipe);
-        dump($recipeTranslation);
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($recipeTranslation);
         $entityManager->flush();
