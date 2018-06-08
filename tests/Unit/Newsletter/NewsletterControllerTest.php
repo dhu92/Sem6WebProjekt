@@ -8,36 +8,23 @@
 
 namespace App\Tests\Unit\Newsletter;
 
+use App\Entity\Recipe;
 use SymfoniacNewsletterBundle\Controller\NewsletterController;
-use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class NewsletterControllerTest extends TestCase
+class NewsletterControllerTest extends KernelTestCase
 {
+    /**
+     * @runInSeparateProcess
+     */
     public function testSetRecipe() {
+        $newsletter = new NewsletterController();
 
-    }
+        $recipeTest = new Recipe();
+        $recipeTest->setId(1);
+        $recipeTest->setTranslation(1);
 
-    public function testGetRecipe() {
-
-    }
-
-    public function testGetNewsletterHeader()
-    {
-
-    }
-
-    public function testSetNewsletterHeader()
-    {
-
-    }
-
-    public function testGetNewsletterFooter()
-    {
-
-    }
-
-    public function testSetNewsletterFooter()
-    {
-
+        $newsletter->setRecipe($recipeTest);
+        $this->assertEquals($recipeTest->getId(), $newsletter->getRecipe()->getId());
     }
 }
