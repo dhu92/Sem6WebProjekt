@@ -1,4 +1,5 @@
 framework:
+    templating: { engines: ['twig'] }
     secret: '%env(APP_SECRET)%'
     #default_locale: en
     #csrf_protection: true
@@ -8,12 +9,10 @@ framework:
     # Remove or comment this section to explicitly disable session support.
     session:
         handler_id: ~
-
     #esi: true
     #fragments: true
     php_errors:
         log: true
-
     cache:
         # Put the unique name of your app here: the prefix seed
         # is used to compute stable namespaces for cache keys.
