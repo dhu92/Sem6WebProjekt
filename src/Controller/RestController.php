@@ -10,6 +10,7 @@ namespace App\Controller;
 
 
 use App\Entity\Recipe;
+use App\Entity\RecipeTranslation;
 use App\Entity\User;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -34,7 +35,16 @@ class RestController extends FOSRestController{
 //        $user2->setPassword("Even strong password");
 //        $users = array($user1, $user2);
         $allrecipes = $this->getDoctrine()->getRepository(Recipe::class)->findAll();
-        return View::create($allrecipes, Response::HTTP_OK);
+        $allrecipeTranslations = $this->getDoctrine()->getRepository(RecipeTranslation::class)->findAll();
+        $result = array();
+        foreach($allrecipes as $recipe){
+            foreach($allrecipeTranslations as $translation){
+                if($translation->getRecipeID() == $recipe->getId()){
+                    array_push($result, $translation);
+                }
+            }
+        }
+        return View::create($result, Response::HTTP_OK);
     }
 
     /**
@@ -53,10 +63,20 @@ class RestController extends FOSRestController{
     public function createRecipe(){
         dump("YAAAAAAAAAAAAAAAAAAAY");
         $entityManager = $this->getDoctrine()->getManager();
-
     }
 
     /**
+     * Update a recipe
+     * @Rest\Put("/api/updateRecipe/{recipeId}")
+     */
+    public function updateRecipe($recipeId){
+        $recipe = $this->getDoctrine()->getRepository(Recipe::class)->find($recipeId);
+        //Update und so;
+        $this->getDoctrine()->getManager()->persist($recipe);
+        $this->getDoctrine()->getManager()->flush();
+    }
+    /**
+     * Delete a recipe
      * @Rest\Delete("/api/deleterecipe/{recipeId]")
      * @param $recipeId
      */
