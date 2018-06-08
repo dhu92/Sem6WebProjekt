@@ -6,7 +6,7 @@
  * Time: 15:29
  */
 
-namespace App\Tests\Unit\Newsletter;
+namespace App\Tests\Unit\NewsletterIntegrationTest;
 
 use App\Entity\Recipe;
 use SymfoniacNewsletterBundle\Controller\NewsletterController;

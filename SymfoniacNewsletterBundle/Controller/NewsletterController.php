@@ -15,6 +15,7 @@ use App\Entity\IngredientTranslation;
 use App\Entity\Recipe;
 use App\Entity\RecipeIngredient;
 use App\Entity\RecipeTranslation;
+use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -148,7 +149,7 @@ class NewsletterController extends Controller
         if (!$recipe) {
             return 0;
         } else {
-            return array_slice($recipe, 0, 3);
+            return array_slice($recipe, 1, 1);
         }
     }
 
@@ -159,17 +160,21 @@ class NewsletterController extends Controller
             ->getRepository(RecipeTranslation::class)
             ->find($recipe[$offset]->getId());
 
+        dump($recipeTranslation);
+
         $recipeIngredients = $this->getDoctrine()
             ->getRepository(RecipeIngredient::class)
             ->findByRecipeID($recipe[$offset]->getId());
 
-        $ingredient = array();
+        dump($recipeIngredients);
 
         for ($x = 0; $x < sizeof($recipeIngredients); $x++) {
             $ingredient[$x] = $this->getDoctrine()
                 ->getRepository((IngredientTranslation::class))
-                ->findByIngredientID($recipeIngredients[$x]->getId())[0];
+                ->findByIngredientID($recipeIngredients[$x]->getId());
         }
+
+        dump($ingredient);
 
         $this->setIngredients($ingredient);
         $this->setRecipeIngredients($recipeIngredients);
@@ -191,17 +196,25 @@ class NewsletterController extends Controller
         $this->setNewsletterFooter("We wish you a happy Day!");
     }
 
-    public function returnRecipe ($ingredientString, $offset) {
+    private function returnRecipe ($ingredientString, $offset) {
         try {
             $this->setLatestRecipe($offset);
 
-            for ($x = 0; $x < sizeof($this->recipeIngredients,1); $x++) {
-                $ingredientString = $ingredientString.$this->ingredients[$x]->getName()
-                    ."\t\t".$this->recipeIngredients[$x]->getAmount()
-                    ."\t".$this->recipeIngredients[$x]->getMeasurement()
-                    ."\r\n";
+            if (!is_array($this->ingredients)) {
+                for ($x = 0; $x < sizeof($this->recipeIngredients,1); $x++) {
+                    $ingredientString = $ingredientString.$this->ingredients[$x]->getName()
+                        ."\t\t".$this->recipeIngredients[$x]->getAmount()
+                        ."\t".$this->recipeIngredients[$x]->getMeasurement()
+                        ."\r\n";
+                }
+            } else {
+                for ($x = 0; $x < sizeof($this->recipeIngredients, 1); $x++) {
+                    $ingredientString = $ingredientString . $this->ingredients[$x][0]->getName()
+                        . "\t\t" . $this->recipeIngredients[$x]->getAmount()
+                        . "\t" . $this->recipeIngredients[$x]->getMeasurement()
+                        . "\r\n";
+                }
             }
-
 
             return $this->recipeTranslation->getName()
                 ."\r\n".$ingredientString
@@ -268,7 +281,7 @@ class NewsletterController extends Controller
 
         return $this->render('recipe/recent_list.html.twig',
             array('newsletterHeader' => $this->newsletterHeader,
-                'newsletterContent' => $this->returnLastRecipes(3),
+                'newsletterContent' => $this->returnLastRecipes(1),
                 'newsletterFooter' => $this->newsletterFooter)
         );
     }

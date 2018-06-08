@@ -129,7 +129,7 @@ class RecipeIngredient
     private $recipeID;
 
     /**
-     * @ORM\OneToOne(targetEntity="Ingredient", mappedBy="Ingredient")
+     * @ORM\ManyToOne(targetEntity="Ingredient")
      * @ORM\JoinColumn(name="ingredientID", referencedColumnName="id")
      */
     private $ingredientID;
