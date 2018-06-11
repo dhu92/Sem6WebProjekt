@@ -20,6 +20,7 @@ class RecipeCreatedEvent extends Event
 
     public function __construct(Recipe $recipeTo)
     {
+
         $this->recipe = (string)$recipeTo->getId();
     }
 

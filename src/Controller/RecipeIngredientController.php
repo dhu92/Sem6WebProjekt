@@ -35,7 +35,7 @@ class RecipeIngredientController extends Controller
     /**
      * @Route("/recipe/ingredient", name="recipe_ingredient")
      */
-    public function index(Request $request)
+    public function index(Request $request, \Swift_Mailer $mailer, \Twig_Environment $twig)
     {
 //        $recipeform = $this->createForm(RecipeFormType::class);
 //
@@ -56,7 +56,7 @@ class RecipeIngredientController extends Controller
         if($baseForm->isSubmitted()){
             $baseFormData = $baseForm->getData();
             $this->addFlash('success', 'Recipe added successfully');
-            $this->save($baseFormData);
+            $this->save($baseFormData, $mailer,$twig);
             $this->redirectToRoute('recipe_ingredient');
         }
 
@@ -80,30 +80,18 @@ class RecipeIngredientController extends Controller
 //
 //    }
 
-    private function save($data){
+    private function save($data, $mailer, $twig){
         //save new recipe in Table recipe
-        dump($data);
         $recipe = new Recipe();
         $recipe->setOwner($this->getUser());
         $entityManager = $this ->getDoctrine()->getManager();
         $entityManager->persist($recipe);
         $entityManager->flush();
 
-        $transport = (new \Swift_SmtpTransport('smtp.gmail.com', 465))
-            ->setUsername('symfoniac2018@gmail.com')
-            ->setPassword('loladin2018!')
-        ;
-        $mailer = new \Swift_Mailer($transport);
-        $dispatcher = new EventDispatcher();
-
-        $loader = new \Twig_Loader_Filesystem('../templates');
-        $twig = new \Twig_Environment($loader, array(
-            'cache' => '/path/to/compilation_cache',
-        ));
-        $listener = new RecipeCreatedListener($mailer, $twig);
-        $dispatcher->addListener('recipe.created', array($listener, 'onRecipeCreated'));
+        $dispatcher = $this ->get('event_dispatcher');
         $event = new RecipeCreatedEvent($recipe);
-        $dispatcher->dispatch(RecipeCreatedEvent::class, $event);
+        $dispatcher->dispatch('recipe.created', $event);
+
         //save ingrediants
         $elements = $data->getIngredient();
         foreach($elements as  $recipeIngredient){
