@@ -21,8 +21,6 @@ class IngredientTranslation {
 
     public $collection;
 
-
-
     public function getIngredients() : Collection{
         $test1 = new IngredientTranslation();
         $test1->setName("");

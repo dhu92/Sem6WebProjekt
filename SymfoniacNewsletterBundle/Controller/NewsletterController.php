@@ -31,6 +31,12 @@ class NewsletterController extends Controller
     private $newsletterContent;
     private $newsletterFooter;
 
+    private function resetAll() {
+        $this->recipe = null;
+        $this->recipeTranslation = null;
+        $this->recipeIngredients = null;
+        $this->ingredients = array();
+    }
     /**
      * @return mixed
      */
@@ -165,9 +171,20 @@ class NewsletterController extends Controller
             ->findByRecipeID($recipe[$offset]->getId());
 
         for ($x = 0; $x < sizeof($recipeIngredients); $x++) {
-            $ingredient[$x] = $this->getDoctrine()
+            $ingredientForTranslation[$x] = $this->getDoctrine()
+                ->getRepository(Ingredient::class)
+                ->find($recipeIngredients[$x]->getIngredientID());
+        }
+
+        for ($y = 0; $y < sizeof($recipeIngredients); $y++) {
+            $query = $this->getDoctrine()
                 ->getRepository(IngredientTranslation::class)
-                ->findByIngredientID($recipeIngredients[$x]->getRecipeID());
+                ->createQueryBuilder('it')
+                    ->where('it.ingredientID = :ingredient AND it.language = :language')
+                    ->setParameter(':ingredient', $ingredientForTranslation[$y]->getId())
+                    ->setParameter(':language', 0)
+                    ->getQuery();
+            $ingredient[$y] = $query->setMaxResults(1)->getOneOrNullResult();
         }
 
         dump($ingredient);
@@ -175,7 +192,7 @@ class NewsletterController extends Controller
         $this->setIngredients($ingredient);
         $this->setRecipeIngredients($recipeIngredients);
         $this->setRecipeTranslation($recipeTranslation);
-        $this->setRecipe($recipe[0]);
+        $this->setRecipe($recipe[$offset]);
     }
 
     private function createHeader() {
@@ -185,36 +202,39 @@ class NewsletterController extends Controller
         else {
             $user = $this->getUser()->getUsername();
         }
-        $this->setNewsletterHeader("Hello ".$user."!");
+        $this->setNewsletterHeader("Hello ".$user."!\r\n");
     }
 
     private function createFooter() {
         $this->setNewsletterFooter("We wish you a happy Day!");
     }
 
-    private function returnRecipe ($ingredientString, $offset) {
+    private function returnRecipe ($recipeText, $offset) {
         try {
             $this->setLatestRecipe($offset);
 
-            for ($x = 0; $x < sizeof($this->recipeIngredients, 1); $x++) {
-                $ingredientString = $ingredientString.$this->ingredients[$x][0]->getName()
+            $ingredientText = "";
+
+            for ($x = 0; $x < sizeof($this->recipeIngredients); $x++) {
+                $ingredientText = $ingredientText.$this->ingredients[$x]->getName()
                     . "\t\t" . $this->recipeIngredients[$x]->getAmount()
                     . "\t" . $this->recipeIngredients[$x]->getMeasurement()
                     . "\r\n";
             }
 
             return $this->recipeTranslation->getName()
-                ."\r\n".$ingredientString
+                ."\r\n".$ingredientText
                 ."\r\n".$this->recipeTranslation->getDescription()
                 ."\r\n".$this->recipeTranslation->getPreperation()
-                ."\r\n".$this->recipeTranslation->getDuration();
-
+                ."\r\n".$this->recipeTranslation->getDuration()
+                ."\r\n--------------------------------\r\n"
+                ."\r\n".$recipeText;
 
         } catch (Exception $exception) {
             if ($offset == 0) {
                 return "No additional Recipes Found";
             } else {
-                return $ingredientString."\r\nNo additional Recipes Found";
+                return $recipeText."\r\nNo additional Recipes Found";
             }
         }
     }
@@ -234,6 +254,7 @@ class NewsletterController extends Controller
 
             for ($x = 0; $x < $amount; $x++) {
                 $recipesText = $this->returnRecipe($recipesText, $x);
+                $this->resetAll();
             }
         }
 
@@ -247,6 +268,8 @@ class NewsletterController extends Controller
 
         $this->createHeader();
         $this->createFooter();
+
+
 
 
         return $this->render('recipe/recent_list.html.twig',
