@@ -28,10 +28,6 @@ class RecipeListController extends Controller
             $recipeTranslations[$x] = $recipeTranslation;
         }
 
-        dump($recipeTranslations);
-        $rec = $recipeTranslations[1];
-        dump($rec[0]->getRecipeID());
-
         return $this->render('recipe_list/index.html.twig',
             array('recipeTranslations' => $recipeTranslations));
     }
