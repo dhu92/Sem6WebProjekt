@@ -181,7 +181,7 @@ class NewsletterController extends Controller
 
         $this->setIngredients($ingredient);
         $this->setRecipeIngredients($recipeIngredients);
-        $this->setRecipeTranslation($recipeTranslation[$offset]);
+        $this->setRecipeTranslation($recipeTranslation[0]);
         $this->setRecipe($recipe[$offset]);
     }
 
