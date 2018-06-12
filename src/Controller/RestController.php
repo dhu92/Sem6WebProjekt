@@ -30,6 +30,7 @@ class RestController extends FOSRestController{
     public function getRecipes(): View
     {
         $result = $this->getDoctrine()->getRepository(Recipe::class)->findAll();
+//        $translations = $this->getDoctrine()->getRepository(RecipeTranslation::class)->findAll();
 //        $translations = [];
 //        foreach($result as $recipe){
 //            $translationsForRecipe = $this->loadTranslationsFromDatabase($recipe);
