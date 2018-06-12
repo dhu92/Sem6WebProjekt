@@ -181,7 +181,7 @@ class NewsletterController extends Controller
 
         $this->setIngredients($ingredient);
         $this->setRecipeIngredients($recipeIngredients);
-        $this->setRecipeTranslation($recipeTranslation);
+        $this->setRecipeTranslation($recipeTranslation[$offset]);
         $this->setRecipe($recipe[$offset]);
     }
 
@@ -219,7 +219,6 @@ class NewsletterController extends Controller
                 ."\r\n".$this->recipeTranslation->getDuration()
                 ."\r\n--------------------------------\r\n"
                 ."\r\n".$recipeText;
-            return "blabla";
 
         } catch (Exception $exception) {
             if ($offset == 0) {
