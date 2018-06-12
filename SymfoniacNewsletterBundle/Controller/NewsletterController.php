@@ -15,10 +15,8 @@ use App\Entity\IngredientTranslation;
 use App\Entity\Recipe;
 use App\Entity\RecipeIngredient;
 use App\Entity\RecipeTranslation;
-use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class NewsletterController extends Controller
 {
@@ -156,11 +154,9 @@ class NewsletterController extends Controller
     private function setLatestRecipe($offset) {
         $recipe = $this->getRecipes();
 
-        dump($recipe);
-
         $recipeTranslation = $this->getDoctrine()
             ->getRepository(RecipeTranslation::class)
-            ->find($recipe[$offset]->getId());
+            ->findByRecipeID($recipe[$offset]->getId());
 
         $recipeIngredients = $this->getDoctrine()
             ->getRepository(RecipeIngredient::class)
