@@ -60,10 +60,10 @@ class RecipeDetailController extends Controller
 
         $recipeBase = new RecipeBase();
         $recipeBase->setLanguage($language);
-        $recipeBase->setDuration($recipeTranslation->getDuration());
-        $recipeBase->setDescription($recipeTranslation->getDescription());
-        $recipeBase->setName($recipeTranslation->getName());
-        $recipeBase->setPreparation($recipeTranslation->getPreperation());
+        $recipeBase->setDuration($recipeTranslation[0]->getDuration());
+        $recipeBase->setDescription($recipeTranslation[0]->getDescription());
+        $recipeBase->setName($recipeTranslation[0]->getName());
+        $recipeBase->setPreparation($recipeTranslation[0]->getPreperation());
         foreach ($ingredients as $ing){
             $recipeBase->addIngredient($ing);
         }

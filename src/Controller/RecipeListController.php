@@ -10,8 +10,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class RecipeListController extends Controller
 {
 
-    private $recipe;
-
     /**
      * @Route("/recipe/getAll", name="recipe_list")
      */
@@ -31,7 +29,8 @@ class RecipeListController extends Controller
         }
 
         dump($recipeTranslations);
-
+        $rec = $recipeTranslations[1];
+        dump($rec[0]->getRecipeID());
 
         return $this->render('recipe_list/index.html.twig',
             array('recipeTranslations' => $recipeTranslations));

@@ -7,11 +7,24 @@
 </style>
 
 <div class="example-wrapper">
+    <table>
+        <tr>
+            <th>Recipe Name</th>
+            <th>Duration (in minutes)</th>
+            <th>Description</th>
+        </tr>
     {% for recipeTranslation in recipeTranslations %}
-        <a href="{{ "/recipe/get/1"}}">
-           <li>test</li>
-        </a>
-        {{ recipeTranslation.name }}
+        {% for recipes in recipeTranslation %}
+            <tr>
+                <td><a href="/recipe/get/{{ recipes.recipeID.id}}">
+                        {{ recipes.name }}</a></td>
+                <td>{{ recipes.duration }}</td>
+                <td>{{ recipes.description }}</td>
+            </tr>
+
+
+        {% endfor %}
     {% endfor %}
+    </table>
 </div>
 {% endblock %}
