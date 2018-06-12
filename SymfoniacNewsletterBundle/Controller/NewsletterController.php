@@ -172,9 +172,9 @@ class NewsletterController extends Controller
             $query = $this->getDoctrine()
                 ->getRepository(IngredientTranslation::class)
                 ->createQueryBuilder('it')
-                    ->where('it.ingredientID = :ingredient') // AND it.language = :language')
+                    ->where('it.ingredientID = :ingredient AND it.language = :language')
                     ->setParameter(':ingredient', $ingredientForTranslation[$y]->getId())
-                    //->setParameter(':language', 0)
+                    ->setParameter(':language', $recipeTranslation[0]->getLanguageID())
                     ->getQuery();
             $ingredient[$y] = $query->setMaxResults(1)->getOneOrNullResult();
         }
