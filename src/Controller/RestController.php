@@ -149,27 +149,26 @@ class RestController extends FOSRestController{
      */
     public function deleteRecipe(Request $request){
         $recipe = $this->getDoctrine()->getRepository(Recipe::class)->find($request->get('recipeID'));
-//        $translations = $this->findTranslationsForRecipe($recipe->getId());
-//        $translations = $this->loadTranslationsFromDatabase($recipe);
-//        $count = sizeof($translations);
-//        $message = "";
-//        $recipeIngredients = $this->getDoctrine()->getRepository(RecipeIngredient::class)->findAll();
-//        foreach($recipeIngredients as $ri){
-//            if($ri->getRecipeID() == $recipe){
-//                $this->getDoctrine()->getManager()->remove($ri);
-//            }
-//        }
-//        $x = 0;
-//        foreach($translations as $translation){
-//            $this->getDoctrine()->getManager()->remove($translation);
-//            $x++;
-//        }
+        $translations = $this->findTranslationsForRecipe($recipe->getId());
+        $translations = $this->loadTranslationsFromDatabase($recipe);
+        $count = sizeof($translations);
         $message = "Nothing deleted";
+        $recipeIngredients = $this->getDoctrine()->getRepository(RecipeIngredient::class)->findAll();
+        foreach($recipeIngredients as $ri){
+            if($ri->getRecipeID() == $recipe){
+                $this->getDoctrine()->getManager()->remove($ri);
+            }
+        }
+        $x = 0;
+        foreach($translations as $translation){
+            $this->getDoctrine()->getManager()->remove($translation);
+            $x++;
+        }
         if($recipe){
             $this->getDoctrine()->getManager()->remove($recipe);
             $message = "Recipe deleted";
         }
-//        $message = $message . " and " .$x . "/". $count . " related translations.";
+        $message = $message . " and " .$x . "/". $count . " related translations.";
         return View::create($message, Response::HTTP_OK);
     }
 
