@@ -21,7 +21,7 @@ class RecipeListController extends Controller
             ->getRepository(Recipe::class)
             ->findAll();
 
-        dump($recipe);
+//        dump($recipe);
 
         for ($x = 0; $x < sizeof($recipe); $x++){
             $recipeTranslation = $this->getDoctrine()
@@ -30,7 +30,7 @@ class RecipeListController extends Controller
             $recipeTranslations[$x] = $recipeTranslation;
         }
 
-        dump($recipeTranslations);
+        //dump($recipeTranslations);
 
         return $this->render('recipe_list/index.html.twig',
             array('recipeTranslations' => $recipeTranslations));

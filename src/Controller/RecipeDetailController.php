@@ -24,7 +24,7 @@ class RecipeDetailController extends Controller
      */
     public function index($id, Request $request)
     {
-        $ingredients = array();
+//        $ingredients = array();
 
         $recipe = $this->getDoctrine()
             ->getRepository(Recipe::class)
@@ -33,29 +33,14 @@ class RecipeDetailController extends Controller
             ->getRepository(RecipeTranslation::class)
             ->findByRecipeID($id);
 
-
         $recipeIngredients = $this->getDoctrine()
             ->getRepository(RecipeIngredient::class)
             ->findByRecipeID($id);
+//        dump($recipeIngredients);
 
         $language = $this->getDoctrine()
             ->getRepository(Language::class)
-            ->find(1);
-
-
-        for ($x = 0; $x < sizeof($recipeIngredients); $x++) {
-            $ingredientForTranslation[$x] = $this->getDoctrine()
-                ->getRepository(Ingredient::class)
-                ->find($recipeIngredients[$x]->getIngredientID());
-        }
-
-        for ($y = 0; $y < sizeof($recipeIngredients); $y++) {
-            $ingredients = $this->getDoctrine()
-                ->getRepository(RecipeIngredient::class)
-                ->findByIngredientID($ingredientForTranslation[$y]);
-        }
-
-        dump($ingredientForTranslation);
+            ->find($recipeTranslation[0]->getLanguageID());
 
         $recipeBase = new RecipeBase();
         $recipeBase->setLanguage($language);
@@ -63,10 +48,29 @@ class RecipeDetailController extends Controller
         $recipeBase->setDescription($recipeTranslation[0]->getDescription());
         $recipeBase->setName($recipeTranslation[0]->getName());
         $recipeBase->setPreparation($recipeTranslation[0]->getPreperation());
-        foreach ($ingredients as $ing){
+        foreach ($recipeIngredients as $ing){
             $recipeBase->addIngredient($ing);
         }
+
+
         $baseForm = $this->createForm(RecipeBaseType::class, $recipeBase);
+
+//        $data = $baseForm->getData();
+//        $ingredientList = $data->getIngredient();
+//        foreach($ingredientList as $ingredient){
+//            $ingredient->getIngredients()->setData($recipeIngredients[1]);
+//        }
+////        $elements = $data->getIngredient();
+//        foreach($elements as $recipeIngredient){
+//            foreach($recipeIngredient as $ingredient){
+//                $recipeIngredient->setIngredientID($ingredient->getIngredientID());
+//                $recipeIngredient->setRecipeID($recipe);
+//                $entityManager = $this ->getDoctrine()->getManager();
+//                $entityManager->persist($recipeIngredient);
+//                $entityManager->flush();
+//            }
+//      }
+
         $baseForm->handleRequest($request);
 
 
@@ -74,10 +78,11 @@ class RecipeDetailController extends Controller
             if($this->getUser()->getId() != $recipe->getOwner()->getId()){
                 $this->addFlash('failure', 'You are not allowed to edit recipeies from other users.');
             } else {
-                dump("isSubmitted true");
+//                dump("isSubmitted true");
                 $baseFormData = $baseForm->getData();
                 $this->addFlash('success', 'Recipe added successfully');
-                $this->save($baseFormData, $recipe);
+//                dump($baseFormData);
+                $this->save($baseFormData, $recipe, $recipeTranslation[0]);
                 $this->redirectToRoute('recipe_ingredient');
             }
         }
@@ -96,14 +101,19 @@ class RecipeDetailController extends Controller
             ->find($id);
     }
 
-    private function save($data, $recipe){
-        //save new recipe in Table recipe
-        dump($data);
+    private function save($data, $recipe, $recipeTranslation){
+
         $entityManager = $this ->getDoctrine()->getManager();
         $entityManager->persist($recipe);
         $entityManager->flush();
 
-        //save ingrediants
+        $recipeIngredients = $this->getDoctrine()->getRepository(RecipeIngredient::class)->findAll();
+        foreach($recipeIngredients as $ri){
+            if($ri->getRecipeID() == $recipe){
+                $entityManager->remove($ri);
+            }
+        }
+
         $elements = $data->getIngredient();
         foreach($elements as  $recipeIngredient){
             foreach($recipeIngredient as $ingredient){
@@ -115,8 +125,18 @@ class RecipeDetailController extends Controller
             }
         }
 
-        //save translation
-        $recipeTranslation = new RecipeTranslation();
+        //save ingrediants
+//        $elements = $data->getIngredient();
+//        foreach($elements as  $recipeIngredient){
+//            foreach($recipeIngredient as $ingredient){
+//                $recipeIngredient->setIngredientID($ingredient->getIngredientID());
+//                $recipeIngredient->setRecipeID($recipe);
+//                $entityManager = $this ->getDoctrine()->getManager();
+//                $entityManager->persist($recipeIngredient);
+//                $entityManager->flush();
+//            }
+//        }
+
         $recipeTranslation->setLanguageID($data->getLanguage());
         $recipeTranslation->setName($data->getName());
         $recipeTranslation->setDescription($data->getDescription());

@@ -46,7 +46,7 @@ class RecipeIngredientController extends Controller
 //            $this->addFlash('success', 'Recipe added successfully');
 //            return $this->redirectToRoute('recipe_ingredient');
 //        }
-//
+//l
 //        return $this->addIngredientController($request, "setIngredient", $recipeform);
 
         $recipeBase = new RecipeBase();

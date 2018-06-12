@@ -25,7 +25,7 @@ class IngredientController extends Controller
 
         if($form->isSubmitted() && $form->isValid()){
             $formData = $form->getData();
-            dump($formData);
+//            dump($formData);
             $this->save($formData);
             $this->addFlash('success', 'Ingredient added successfully');
 
@@ -61,7 +61,7 @@ class IngredientController extends Controller
         $german->setName($data['name_in_german']);
         $german->setIngredientID($ingredient);
 
-        dump($german);
+        //dump($german);
 
         $english = new IngredientTranslation();
         $english->setLanguage($this->getLanguageByName("English"));
