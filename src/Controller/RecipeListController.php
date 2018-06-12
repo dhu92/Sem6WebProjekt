@@ -21,12 +21,16 @@ class RecipeListController extends Controller
             ->getRepository(Recipe::class)
             ->findAll();
 
-        for ($x = 1; $x <= sizeof($recipe); $x++){
+        dump($recipe);
+
+        for ($x = 0; $x < sizeof($recipe); $x++){
             $recipeTranslation = $this->getDoctrine()
                 ->getRepository(RecipeTranslation::class)
-                ->findByRecipeID($x);
+                ->findByRecipeID($recipe[$x]->getID());
             $recipeTranslations[$x] = $recipeTranslation;
         }
+
+        dump($recipeTranslations);
 
         return $this->render('recipe_list/index.html.twig',
             array('recipeTranslations' => $recipeTranslations));

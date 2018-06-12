@@ -192,7 +192,8 @@ class NewsletterController extends Controller
         else {
             $user = $this->getUser()->getUsername();
         }
-        $this->setNewsletterHeader("Hello ".$user."!\r\n");
+        $this->setNewsletterHeader("Hello ".$user
+            ."!\r\nThese are the most recent recipes added:\r\n--------------------------------\r\n");
     }
 
     private function createFooter() {

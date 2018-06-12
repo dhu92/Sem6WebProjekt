@@ -16,8 +16,7 @@
     {% for recipeTranslation in recipeTranslations %}
         {% for recipes in recipeTranslation %}
             <tr>
-                <td><a style="color: black" href="/recipe/get/{{ recipes.recipeID.id}}">
-                        {{ recipes.name }}</a></td>
+                <td><a style="color: black" href="/recipe/get/{{ recipes.recipeID.id}}">{{ recipes.name }}</a></td>
                 <td><a style="color: black" href="/recipe/get/{{ recipes.recipeID.id}}">{{ recipes.duration }}</a></td>
                 <td><a style="color: black" href="/recipe/get/{{ recipes.recipeID.id}}">{{ recipes.description }}</a></td>
             </tr>
