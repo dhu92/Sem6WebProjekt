@@ -217,7 +217,7 @@ class NewsletterController extends Controller
                 ."\r\n".$ingredientText
                 ."\r\n".$this->recipeTranslation->getDescription()
                 ."\r\n".$this->recipeTranslation->getPreperation()
-                ."\r\n".$this->recipeTranslation->getDuration()." in Minutes"
+                ."\r\n".$this->recipeTranslation->getDuration()." minutes"
                 ."\r\n--------------------------------\r\n"
                 ."\r\n".$recipeText;
 
