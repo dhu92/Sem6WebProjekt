@@ -57,7 +57,7 @@ class RecipeIngredientController extends Controller
             $baseFormData = $baseForm->getData();
             $this->addFlash('success', 'Recipe added successfully');
             $this->save($baseFormData, $mailer,$twig);
-            $this->redirectToRoute('recipe_ingredient');
+            return $this->redirectToRoute('recipe_ingredient');
         }
 
 

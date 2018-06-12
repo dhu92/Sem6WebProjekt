@@ -27,6 +27,9 @@ class IngredientController extends Controller
             $formData = $form->getData();
             dump($formData);
             $this->save($formData);
+            $this->addFlash('success', 'Ingredient added successfully');
+
+            return $this->redirectToRoute('ingredient');
         }
 
         $response = $this->render('ingredient/index.html.twig', [
@@ -38,6 +41,13 @@ class IngredientController extends Controller
         $response->headers->addCacheControlDirective('must-revalidate', true);
 
         return $response;
+    }
+
+    private function buildForm(){
+        $form = $this->createForm(IngredientType::class);
+        return $this->render('ingredient/index.html.twig', [
+            'controller_name' => 'IngredientController',
+            'ingredient_form' => $form->createView()]);
     }
 
     private function save($data){
