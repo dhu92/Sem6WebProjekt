@@ -142,7 +142,7 @@ class RecipeTranslation {
 
     /**
      * @ORM\ManyToOne(targetEntity="Recipe")
-     * @ORM\JoinColumn(name="recipeID", referencedColumnName="id")
+     * @ORM\JoinColumn(name="recipeID", referencedColumnName="id", onDelete="CASCADE")
      */
     private $recipeID;
 
@@ -166,8 +166,8 @@ class RecipeTranslation {
      */
     private $duration;
 
-    public function belongsTo($id){
-        if($this->getId() == $id){
+    public function belongsTo(Recipe $recipe){
+        if($this->getId() == $recipe->getId()){
             return true;
         }
         return false;

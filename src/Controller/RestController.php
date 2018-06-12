@@ -11,6 +11,7 @@ namespace App\Controller;
 
 use App\Entity\Language;
 use App\Entity\Recipe;
+use App\Entity\RecipeIngredient;
 use App\Entity\RecipeTranslation;
 use App\Entity\User;
 use App\Exception\RecipeNotFoundException;
@@ -29,16 +30,13 @@ class RestController extends FOSRestController{
     public function getRecipes(): View
     {
         $result = $this->getDoctrine()->getRepository(Recipe::class)->findAll();
-//        $result = $this->getDoctrine()->getRepository(RecipeTranslation::class)->findAll();
-//        foreach($allrecipes as $recipe){
-//               $found = $this->findTranslationsForRecipe($recipe);
-//               foreach($found as $trans){
-//                   array_push($result, $trans);
+//        $translations = [];
+//        foreach($result as $recipe){
+//            $translationsForRecipe = $this->loadTranslationsFromDatabase($recipe);
+//            foreach($translationsForRecipe as $translation){
+//                array_push($translations, $translation);
 //            }
-//                array_push($result, $this->findTranslationsForRecipe($recipe));
-//                $alltranslations = $this->findTranslationsForRecipe($recipe);
-//                $result[$recipe->getId()] = $alltranslations;
-//            }
+//        }
         return View::create($result, Response::HTTP_OK);
     }
 
@@ -49,15 +47,37 @@ class RestController extends FOSRestController{
      */
     public function findTranslationsForRecipe(int $recipeId){
         $recipe = $this->getDoctrine()->getRepository(Recipe::class)->find($recipeId);
-        $allrecipesTranslations = $this->getDoctrine()->getRepository(RecipeTranslation::class)->findAll();
         $result = [];
-        foreach($allrecipesTranslations as $translation){
-//            if($translation->getRecipeID() == $recipe->getId()){
-             if(($translation->getRecipeID()) === ($recipe->getId())){
-                array_push($result, $translation);
-             }
+        if (!empty($recipe)) {
+            $result = $this->loadTranslationsFromDatabase($recipe);
         }
-//        $translations = $this->getDoctrine()->getRepository(RecipeTranslation::class)->findBy(array("recipeid" => $recipeId));
+        return View::create($result, Response::HTTP_OK);
+    }
+
+    /**
+     * @Rest\Get("api/recipe/getowner/{recipeId}")
+     * @param int $recipeId
+     * @return View
+     */
+    public function getOwnerForRecipe($recipeId){
+        $recipe = $this->getDoctrine()->getRepository(Recipe::class)->find($recipeId);
+        $owner = $this->getDoctrine()->getRepository(User::class)->find($recipe->getOwner()->getId());
+        return View::create($owner, Response::HTTP_OK);
+    }
+
+    /**
+     * @Rest\Get("api/recipe/getbyowner/{ownerId}")
+     * @param int $ownerId
+     * @return View
+     */
+    public function getRecipesByOwner($ownerId){
+        $recipes = $this->getDoctrine()->getRepository(Recipe::class)->findAll();
+        $result = [];
+        foreach($recipes as $recipe){
+            if($recipe->getOwner()->getId() == $ownerId){
+                array_push($result, $recipe);
+            }
+        }
         return View::create($result, Response::HTTP_OK);
     }
 
@@ -114,10 +134,7 @@ class RestController extends FOSRestController{
      */
     public function updateRecipe(Request $request){
         $recipe = $this->getDoctrine()->getRepository(Recipe::class)->find($request->get('recipeID'));
-        //Update und so;
-//        if($request->query->has('owner')){
-            $recipe->setOwner($this->getDoctrine()->getRepository(User::class)->find($request->get('owner')));
-//        }
+        $recipe->setOwner($this->getDoctrine()->getRepository(User::class)->find($request->get('owner')));
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($recipe);
         $entityManager->flush();
@@ -132,16 +149,38 @@ class RestController extends FOSRestController{
      */
     public function deleteRecipe(Request $request){
         $recipe = $this->getDoctrine()->getRepository(Recipe::class)->find($request->get('recipeID'));
-        $translations = $this->findTranslationsForRecipe($recipe);
-        $message = "";
+//        $translations = $this->findTranslationsForRecipe($recipe->getId());
+//        $translations = $this->loadTranslationsFromDatabase($recipe);
+//        $count = sizeof($translations);
+//        $message = "";
+//        $recipeIngredients = $this->getDoctrine()->getRepository(RecipeIngredient::class)->findAll();
+//        foreach($recipeIngredients as $ri){
+//            if($ri->getRecipeID() == $recipe){
+//                $this->getDoctrine()->getManager()->remove($ri);
+//            }
+//        }
+//        $x = 0;
+//        foreach($translations as $translation){
+//            $this->getDoctrine()->getManager()->remove($translation);
+//            $x++;
+//        }
+        $message = "Nothing deleted";
         if($recipe){
             $this->getDoctrine()->getManager()->remove($recipe);
             $message = "Recipe deleted";
         }
-        foreach($translations as $translation){
-            $this->getDoctrine()->getManager()->remove($translation);
-            $message = $message . " and all related translations too";
-        }
+//        $message = $message . " and " .$x . "/". $count . " related translations.";
         return View::create($message, Response::HTTP_OK);
+    }
+
+    private function loadTranslationsFromDatabase(Recipe $recipe) : array {
+        $translations = $this->getDoctrine()->getRepository(RecipeTranslation::class)->findAll();
+        $result = [];
+        foreach($translations as $translation){
+            if($translation->belongsTo($recipe)){
+                array_push($result, $translation);
+            }
+        }
+        return $result;
     }
 }

@@ -124,7 +124,7 @@ class RecipeIngredient
 
     /**
      * @ORM\ManyToOne(targetEntity="Recipe")
-     * @ORM\JoinColumn(name="recipeID", referencedColumnName="id")
+     * @ORM\JoinColumn(name="recipeID", referencedColumnName="id", onDelete="CASCADE")
      */
     private $recipeID;
 

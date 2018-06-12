@@ -31,12 +31,6 @@ class NewsletterController extends Controller
     private $newsletterContent;
     private $newsletterFooter;
 
-    private function resetAll() {
-        $this->recipe = null;
-        $this->recipeTranslation = null;
-        $this->recipeIngredients = null;
-        $this->ingredients = array();
-    }
     /**
      * @return mixed
      */
@@ -162,6 +156,8 @@ class NewsletterController extends Controller
     private function setLatestRecipe($offset) {
         $recipe = $this->getRecipes();
 
+        dump($recipe);
+
         $recipeTranslation = $this->getDoctrine()
             ->getRepository(RecipeTranslation::class)
             ->find($recipe[$offset]->getId());
@@ -180,14 +176,12 @@ class NewsletterController extends Controller
             $query = $this->getDoctrine()
                 ->getRepository(IngredientTranslation::class)
                 ->createQueryBuilder('it')
-                    ->where('it.ingredientID = :ingredient AND it.language = :language')
+                    ->where('it.ingredientID = :ingredient') // AND it.language = :language')
                     ->setParameter(':ingredient', $ingredientForTranslation[$y]->getId())
-                    ->setParameter(':language', 0)
+                    //->setParameter(':language', 0)
                     ->getQuery();
             $ingredient[$y] = $query->setMaxResults(1)->getOneOrNullResult();
         }
-
-        dump($ingredient);
 
         $this->setIngredients($ingredient);
         $this->setRecipeIngredients($recipeIngredients);
@@ -229,6 +223,7 @@ class NewsletterController extends Controller
                 ."\r\n".$this->recipeTranslation->getDuration()
                 ."\r\n--------------------------------\r\n"
                 ."\r\n".$recipeText;
+            return "blabla";
 
         } catch (Exception $exception) {
             if ($offset == 0) {
@@ -254,7 +249,6 @@ class NewsletterController extends Controller
 
             for ($x = 0; $x < $amount; $x++) {
                 $recipesText = $this->returnRecipe($recipesText, $x);
-                $this->resetAll();
             }
         }
 
@@ -269,9 +263,6 @@ class NewsletterController extends Controller
         $this->createHeader();
         $this->createFooter();
 
-
-
-
         return $this->render('recipe/recent_list.html.twig',
             array('newsletterHeader' => $this->newsletterHeader,
                     'newsletterContent' => $this->returnLastRecipes(1),
@@ -285,7 +276,6 @@ class NewsletterController extends Controller
 
         $this->createHeader();
         $this->createFooter();
-
 
         return $this->render('recipe/recent_list.html.twig',
             array('newsletterHeader' => $this->newsletterHeader,
