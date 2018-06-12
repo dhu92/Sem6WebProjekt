@@ -25,7 +25,7 @@ security:
                 target: /
 
     access_control:
-         - { path: ^/api, roles: ROLE_USER }
+         - { path: ^/api, roles: IS_AUTHENTICATED_ANONYMOUSLY }
          - { path: ^/admin, roles: ROLE_ADMIN }
          - { path: ^/recipe/*, roles: ROLE_USER }
          - { path: ^/ingredient/*, roles: ROLE_USER }
