@@ -20,6 +20,7 @@ class RecipeBase
     protected $duration;
     protected $preparation;
 
+
     /**
      * @return mixed
      */

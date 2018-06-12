@@ -6,8 +6,10 @@ use App\Entity\Ingredient;
 use App\Entity\IngredientTranslation;
 use App\Entity\Language;
 use App\Entity\Recipe;
+use App\Entity\RecipeBase;
 use App\Entity\RecipeIngredient;
 use App\Entity\RecipeTranslation;
+use App\Form\RecipeBaseType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -56,8 +58,24 @@ class RecipeDetailController extends Controller
 
         dump($ingredients);
 
+        $recipeBase = new RecipeBase();
+        $recipeBase->setLanguage($language);
+        $recipeBase->setDuration($recipeTranslation->getDuration());
+        $recipeBase->setDescription($recipeTranslation->getDescription());
+        $recipeBase->setName($recipeTranslation->getName());
+        $recipeBase->setPreparation($recipeTranslation->getPreperation());
+        foreach ($ingredients as $ing){
+            $recipeBase->addIngredient($ing);
+        }
+        $baseForm = $this->createForm(RecipeBaseType::class, $recipeBase);
+
+
+
+
         return $this->render('recipe_detail/index.html.twig', [
             'controller_name' => 'RecipeDetailController',
+            'recipe_form' => $baseForm->createView()
+
         ]);
     }
 
