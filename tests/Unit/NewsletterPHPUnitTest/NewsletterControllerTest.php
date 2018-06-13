@@ -22,9 +22,10 @@ class NewsletterControllerTest extends KernelTestCase
 
         $recipeTest = new Recipe();
         $recipeTest->setId(1);
-        $recipeTest->setTranslation(1);
+        $recipeTest->setOwner("test");
 
         $newsletter->setRecipe($recipeTest);
         $this->assertEquals($recipeTest->getId(), $newsletter->getRecipe()->getId());
+        $this->assertEquals($recipeTest->getOwner(), $newsletter->getRecipe()->getOwner());
     }
 }
